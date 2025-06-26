@@ -42,6 +42,7 @@ export default function RegisterModal() {
   // Listen for modal open events
   React.useEffect(() => {
     const handleModalOpen = () => {
+      console.log("Opening register modal");
       setIsOpen(true);
       document.body.style.overflow = "hidden";
     };
@@ -64,8 +65,10 @@ export default function RegisterModal() {
     };
   }, []);
 
+  if (!isOpen) return null;
+
   return (
-    <div id="registerModal" className={`fixed inset-0 bg-black bg-opacity-50 z-50 ${isOpen ? "flex" : "hidden"} items-center justify-center p-4`}>
+    <div id="registerModal" className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <AnimatePresence>
         {isOpen && (
           <motion.div

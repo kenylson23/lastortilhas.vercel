@@ -24,10 +24,12 @@ export default function Navigation() {
   };
 
   const openRegisterModal = () => {
-    const modal = document.getElementById("registerModal");
-    modal?.classList.remove("hidden");
-    modal?.classList.add("flex");
-    document.body.style.overflow = "hidden";
+    console.log("Button clicked - opening register modal");
+    if ((window as any).openRegisterModal) {
+      (window as any).openRegisterModal();
+    } else {
+      console.log("Global openRegisterModal function not found");
+    }
   };
 
   return (
