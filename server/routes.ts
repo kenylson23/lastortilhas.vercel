@@ -55,10 +55,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertReservationSchema.parse(req.body);
       
-      // Convert date string to Date object
+      // Convert date string to Date object and prepare data for database
       const reservationData = {
-        ...validatedData,
-        date: new Date(validatedData.date),
+        userId: validatedData.userId || undefined,
+        name: validatedData.name,
+        phone: validatedData.phone,
+        email: validatedData.email || undefined,
+        date: typeof validatedData.date === 'string' ? new Date(validatedData.date) : validatedData.date,
+        time: validatedData.time,
+        guests: validatedData.guests,
+        notes: validatedData.notes || undefined,
+        status: validatedData.status || "pending",
+        whatsappSent: false,
       };
       
       const reservation = await storage.createReservation(reservationData);

@@ -113,8 +113,14 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 - **Modules**: nodejs-20, web, postgresql-16
 - **Database**: Automatic Replit PostgreSQL provisioning
 
-Changelog:
-- June 26, 2025. Initial setup
+## Recent Changes
+
+### June 26, 2025
+- **Initial setup** - Complete Mexican restaurant website created
+- **Reservation system fixed** - Resolved data validation issues for WhatsApp integration
+- **Database populated** - Added authentic Mexican menu items with Portuguese/English descriptions
+- **WhatsApp integration active** - Reservations redirect to +244 949639932 with formatted details
+- **All systems operational** - Website ready for deployment and customer use
 
 ## User Preferences
 

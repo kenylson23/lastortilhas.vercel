@@ -106,11 +106,16 @@ export const insertMenuItemSchema = createInsertSchema(menuItems).omit({
   updatedAt: true,
 });
 
-export const insertReservationSchema = createInsertSchema(reservations).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  whatsappSent: true,
+export const insertReservationSchema = z.object({
+  userId: z.string().optional(),
+  name: z.string().min(1, "Nome é obrigatório"),
+  phone: z.string().min(1, "Telefone é obrigatório"),
+  email: z.string().email().optional().or(z.literal("")),
+  date: z.string().or(z.date()),
+  time: z.string().min(1, "Horário é obrigatório"),
+  guests: z.number().min(1, "Número de pessoas deve ser pelo menos 1"),
+  notes: z.string().optional(),
+  status: z.string().default("pending").optional(),
 });
 
 export const insertContactMessageSchema = createInsertSchema(contactMessages).omit({
@@ -128,5 +133,16 @@ export type Reservation = typeof reservations.$inferSelect;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertMenuCategory = z.infer<typeof insertMenuCategorySchema>;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
-export type InsertReservation = z.infer<typeof insertReservationSchema>;
+export type InsertReservation = {
+  userId?: string | null;
+  name: string;
+  phone: string;
+  email?: string | null;
+  date: Date;
+  time: string;
+  guests: number;
+  notes?: string | null;
+  status?: string;
+  whatsappSent?: boolean;
+};
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
