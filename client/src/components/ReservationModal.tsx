@@ -252,8 +252,27 @@ export default function ReservationModal() {
                     disabled={reservationMutation.isPending}
                     className="w-full bg-mexican-green hover:bg-green-700 text-white py-4 font-semibold text-lg h-auto"
                   >
-                    <FaWhatsapp className="mr-2 h-5 w-5" />
-                    {reservationMutation.isPending ? "Processando..." : "Confirmar via WhatsApp"}
+                    {reservationMutation.isPending ? (
+                      <>
+                        <motion.div
+                          className="w-5 h-5 mr-2 rounded-full overflow-hidden"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <img 
+                            src="/logo.jpg" 
+                            alt="Loading" 
+                            className="w-full h-full object-cover"
+                          />
+                        </motion.div>
+                        Processando...
+                      </>
+                    ) : (
+                      <>
+                        <FaWhatsapp className="mr-2 h-5 w-5" />
+                        Confirmar via WhatsApp
+                      </>
+                    )}
                   </Button>
                 </motion.div>
               </form>

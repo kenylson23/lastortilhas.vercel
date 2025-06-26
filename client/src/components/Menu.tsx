@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus } from "lucide-react";
+import Loading from "@/components/Loading";
 import type { MenuCategory, MenuItem } from "@shared/schema";
 
 export default function Menu() {
@@ -123,6 +124,11 @@ export default function Menu() {
     { slug: "sobremesas", name: "Sobremesas", nameEn: "Desserts" },
     { slug: "bebidas", name: "Bebidas", nameEn: "Beverages" },
   ];
+
+  // Show loading screen while initial data is loading
+  if (categoriesLoading && itemsLoading) {
+    return <Loading />;
+  }
 
   return (
     <section id="menu" className="py-20 bg-white">
