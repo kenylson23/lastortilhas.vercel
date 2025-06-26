@@ -195,7 +195,7 @@ export default function Menu() {
                 <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
                   <div className="relative">
                     <img 
-                      src={item.imageUrl || "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400"} 
+                      src={item.image || "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400"} 
                       alt={item.name} 
                       className="w-full h-48 object-cover"
                     />

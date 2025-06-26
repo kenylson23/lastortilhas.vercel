@@ -29,11 +29,9 @@ export const sessions = pgTable(
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  profileImageUrl: varchar("profile_image_url"),
-  phone: varchar("phone"),
+  username: varchar("username").unique(),
+  password: varchar("password"),
+  role: varchar("role").default("user"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -41,40 +39,38 @@ export const users = pgTable("users", {
 export const menuCategories = pgTable("menu_categories", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
-  nameEn: varchar("name_en", { length: 100 }).notNull(),
-  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  description: text("description"),
   order: integer("order").default(0),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
-  categoryId: integer("category_id").references(() => menuCategories.id).notNull(),
   name: varchar("name", { length: 200 }).notNull(),
-  nameEn: varchar("name_en", { length: 200 }).notNull(),
   description: text("description").notNull(),
-  descriptionEn: text("description_en").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  imageUrl: varchar("image_url", { length: 500 }),
-  available: boolean("available").default(true),
+  image: varchar("image", { length: 500 }),
+  categoryId: integer("category_id").references(() => menuCategories.id).notNull(),
+  spicyLevel: integer("spicy_level"),
+  vegetarian: boolean("vegetarian").default(false),
   featured: boolean("featured").default(false),
   order: integer("order").default(0),
+  active: boolean("active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const reservations = pgTable("reservations", {
   id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id),
   name: varchar("name", { length: 200 }).notNull(),
   phone: varchar("phone", { length: 50 }).notNull(),
-  email: varchar("email", { length: 200 }),
   date: timestamp("date").notNull(),
   time: varchar("time", { length: 10 }).notNull(),
   guests: integer("guests").notNull(),
-  notes: text("notes"),
-  status: varchar("status", { length: 20 }).default("pending"), // pending, confirmed, cancelled
-  whatsappSent: boolean("whatsapp_sent").default(false),
+  message: text("message"),
+  status: varchar("status", { length: 20 }).default("pending"),
+  userId: varchar("user_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

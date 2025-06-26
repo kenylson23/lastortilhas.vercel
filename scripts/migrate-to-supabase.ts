@@ -110,8 +110,7 @@ async function migrateToSupabase() {
   console.log('Migration completed! You can now update your DATABASE_URL to use Supabase.');
 }
 
-if (require.main === module) {
-  migrateToSupabase().catch(console.error);
-}
+// Run migration if this file is executed directly
+migrateToSupabase().catch(console.error);
 
 export { migrateToSupabase };
