@@ -103,7 +103,7 @@ export default function Hero() {
             <Button 
               onClick={openReservationModal}
               variant="outline"
-              className="border-2 border-white hover:bg-white hover:text-rich-brown text-white px-8 py-4 rounded-full font-semibold text-lg h-auto"
+              className="border-2 border-white hover:bg-white hover:text-rich-brown px-8 py-4 rounded-full font-semibold text-lg h-auto text-[#2b3245]"
             >
               <Calendar className="mr-2 h-5 w-5" />
               Fazer Reserva
