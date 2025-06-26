@@ -76,7 +76,7 @@ export class DatabaseStorage implements IStorage {
     return await db
       .select()
       .from(menuItems)
-      .where(and(eq(menuItems.categoryId, categoryId), eq(menuItems.available, true)))
+      .where(eq(menuItems.categoryId, categoryId))
       .orderBy(menuItems.order);
   }
 
@@ -84,7 +84,6 @@ export class DatabaseStorage implements IStorage {
     return await db
       .select()
       .from(menuItems)
-      .where(eq(menuItems.available, true))
       .orderBy(menuItems.order);
   }
 
