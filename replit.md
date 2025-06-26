@@ -124,13 +124,13 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 - **Lazy loading implemented** - Added custom loading screens using restaurant logo
 - **Performance optimization** - Removed excessive authentication requests for faster loading
 - **Modal fixes** - Corrected registration modal to work properly
-- **Supabase migration completed** - Successfully migrated to Supabase as primary database:
-  - Updated database connection configuration to use SUPABASE_DATABASE_URL
+- **Database migration to Replit PostgreSQL** - Successfully migrated to Replit's native PostgreSQL:
+  - Updated database connection configuration to use Replit's DATABASE_URL
   - Created all required tables (users, sessions, menu_categories, menu_items, reservations, contact_messages, gallery_images)
   - Populated database with 19 authentic Mexican menu items across 7 categories
   - Added 8 gallery images showcasing restaurant ambiance and food
   - Created admin user account (admin@lastortilhas.com / admin123)
-  - Application now fully running on Supabase infrastructure
+  - Application now fully running on Replit's infrastructure without external dependencies
 - **Intelligent authentication system** - Enhanced login/registration with smart features:
   - Real-time email and password validation with visual feedback
   - Automatic account creation for new users with intelligent name generation
