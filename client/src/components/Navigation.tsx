@@ -49,7 +49,7 @@ export default function Navigation() {
           >
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <img 
-                src="/attached_assets/232392717_1501825733503699_8263313813252875392_n_1750929533537.jpg" 
+                src="/logo.jpg" 
                 alt="Las Tortilhas Logo" 
                 className="w-full h-full object-cover"
               />
