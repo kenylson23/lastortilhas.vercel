@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,12 +92,39 @@ export default function Navigation() {
               Contacto
             </button>
             
-            <Button 
-              onClick={openRegisterModal}
-              className="bg-mexican-red hover:bg-red-700 text-white"
-            >
-              Registar
-            </Button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-white text-sm">
+                  Olá, {user?.firstName || user?.email || 'Utilizador'}
+                </span>
+                <Button 
+                  onClick={() => window.location.href = '/api/logout'}
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-black"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sair
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Button 
+                  onClick={() => window.location.href = '/api/login'}
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-black"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Entrar
+                </Button>
+                <Button 
+                  onClick={() => window.location.href = '/api/login'}
+                  className="bg-mexican-red hover:bg-red-700 text-white"
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  Registar
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -138,12 +167,39 @@ export default function Navigation() {
                   Contacto
                 </button>
                 
-                <Button 
-                  onClick={openRegisterModal}
-                  className="bg-mexican-red hover:bg-red-700 text-white w-full"
-                >
-                  Registar
-                </Button>
+                {isAuthenticated ? (
+                  <div className="space-y-4">
+                    <p className="text-warm-sand text-sm">
+                      Olá, {user?.firstName || user?.email || 'Utilizador'}
+                    </p>
+                    <Button 
+                      onClick={() => window.location.href = '/api/logout'}
+                      variant="outline"
+                      className="w-full border-white text-white hover:bg-white hover:text-black"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sair
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Button 
+                      onClick={() => window.location.href = '/api/login'}
+                      variant="outline"
+                      className="w-full border-white text-white hover:bg-white hover:text-black"
+                    >
+                      <LogIn className="mr-2 h-4 w-4" />
+                      Entrar
+                    </Button>
+                    <Button 
+                      onClick={() => window.location.href = '/api/login'}
+                      className="bg-mexican-red hover:bg-red-700 text-white w-full"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      Registar
+                    </Button>
+                  </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>
