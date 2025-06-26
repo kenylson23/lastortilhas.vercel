@@ -47,8 +47,12 @@ export default function Navigation() {
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="w-10 h-10 bg-mexican-red rounded-full flex items-center justify-center">
-              <span className="text-white text-lg">🌶️</span>
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              <img 
+                src="/attached_assets/232392717_1501825733503699_8263313813252875392_n_1750929533537.jpg" 
+                alt="Las Tortilhas Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="font-playfair font-bold text-xl text-white">Las Tortilhas</span>
           </motion.div>
