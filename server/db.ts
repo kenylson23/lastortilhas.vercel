@@ -13,7 +13,9 @@ if (!databaseUrl) {
 
 export const pool = new Pool({ 
   connectionString: databaseUrl,
-  ssl: { rejectUnauthorized: false } // Always use SSL for Supabase
+  ssl: { rejectUnauthorized: false }, // Always use SSL for Supabase
+  // Add explicit schema configuration for Supabase
+  options: '-c search_path=public'
 });
 
 export const db = drizzle(pool, { schema });

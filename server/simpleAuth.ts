@@ -5,6 +5,7 @@ import type { Express, RequestHandler } from "express";
 import connectPg from "connect-pg-simple";
 import { storage } from "./storage";
 import bcrypt from "bcryptjs";
+import { createUserDirect, getUserByEmailDirect, verifyPassword, hashPassword } from './authFix';
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
@@ -53,14 +54,14 @@ export async function setupAuth(app: Express) {
           return done(null, false, { message: 'Senha deve ter pelo menos 6 caracteres' });
         }
 
-        let user = await storage.getUserByEmail(email);
+        let user = await getUserByEmailDirect(email);
         
         if (!user) {
           // Create new user with intelligent defaults
-          const hashedPassword = await bcrypt.hash(password, 12);
+          const hashedPassword = await hashPassword(password);
           const firstName = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
           
-          user = await storage.createUser({
+          user = await createUserDirect({
             email,
             username: email,
             password: hashedPassword,
@@ -72,7 +73,7 @@ export async function setupAuth(app: Express) {
           return done(null, user);
         } else {
           // Verify password for existing user
-          const isValid = await bcrypt.compare(password, user.password || '');
+          const isValid = await verifyPassword(password, user.password || '');
           if (!isValid) {
             return done(null, false, { message: 'Senha incorreta' });
           }
