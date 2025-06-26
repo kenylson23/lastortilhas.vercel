@@ -2,12 +2,12 @@ import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "@shared/schema";
 
-// Use available database (Replit PostgreSQL or Supabase)
-const databaseUrl = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL;
+// Use Supabase as primary database, fallback to Replit PostgreSQL
+const databaseUrl = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   throw new Error(
-    "DATABASE_URL must be set. Database connection not available.",
+    "SUPABASE_DATABASE_URL must be set. Did you forget to configure Supabase?",
   );
 }
 

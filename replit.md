@@ -124,8 +124,8 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 - **Lazy loading implemented** - Added custom loading screens using restaurant logo
 - **Performance optimization** - Removed excessive authentication requests for faster loading
 - **Modal fixes** - Corrected registration modal to work properly
-- **Database migration to Replit PostgreSQL** - Successfully migrated to Replit's native PostgreSQL:
-  - Updated database connection configuration to use Replit's DATABASE_URL
+- **Database configuration optimized** - Configured with Supabase priority:
+  - Database connection prioritizes SUPABASE_DATABASE_URL with Replit PostgreSQL as fallback
   - Created all required tables (users, sessions, menu_categories, menu_items, reservations, contact_messages, gallery_images)
   - Populated database with 19 authentic Mexican menu items across 7 categories
   - Added 8 gallery images showcasing restaurant ambiance and food
