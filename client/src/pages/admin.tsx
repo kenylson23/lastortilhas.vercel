@@ -154,6 +154,18 @@ function MenuManager() {
     featured: false
   });
 
+  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    description: "",
+    price: "",
+    categoryId: "",
+    image: "",
+    spicyLevel: 0,
+    vegetarian: false,
+    featured: false
+  });
+
   const { data: categories } = useQuery<any[]>({
     queryKey: ["/api/menu/categories"],
   });
@@ -163,6 +175,7 @@ function MenuManager() {
   });
 
   const queryClient = useQueryClient();
+  
   const createItem = useMutation({
     mutationFn: async (item: any) => {
       await apiRequest("POST", "/api/admin/menu/items", {
@@ -185,6 +198,57 @@ function MenuManager() {
       });
     },
   });
+
+  const updateItem = useMutation({
+    mutationFn: async ({ id, ...item }: any) => {
+      await apiRequest("PUT", `/api/admin/menu/items/${id}`, {
+        ...item,
+        price: parseFloat(item.price),
+        categoryId: parseInt(item.categoryId),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/menu/items"] });
+      setEditingItem(null);
+    },
+  });
+
+  const deleteItem = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("DELETE", `/api/admin/menu/items/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/menu/items"] });
+    },
+  });
+
+  const startEdit = (item: any) => {
+    setEditingItem(item);
+    setEditForm({
+      name: item.name,
+      description: item.description,
+      price: item.price.toString(),
+      categoryId: item.categoryId.toString(),
+      image: item.image || "",
+      spicyLevel: item.spicyLevel || 0,
+      vegetarian: item.vegetarian || false,
+      featured: item.featured || false
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingItem(null);
+    setEditForm({
+      name: "",
+      description: "",
+      price: "",
+      categoryId: "",
+      image: "",
+      spicyLevel: 0,
+      vegetarian: false,
+      featured: false
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -272,6 +336,95 @@ function MenuManager() {
         </CardContent>
       </Card>
 
+      {/* Edit Item Modal */}
+      {editingItem && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Editar Item: {editingItem.name}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="edit-name">Nome do Prato</Label>
+                <Input
+                  id="edit-name"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  placeholder="Ex: Taco al Pastor"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-price">Preço (AOA)</Label>
+                <Input
+                  id="edit-price"
+                  type="number"
+                  step="0.01"
+                  value={editForm.price}
+                  onChange={(e) => setEditForm({ ...editForm, price: e.target.value })}
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="edit-description">Descrição</Label>
+              <Textarea
+                id="edit-description"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                placeholder="Descrição do prato..."
+                rows={3}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="edit-category">Categoria</Label>
+                <Select 
+                  value={editForm.categoryId} 
+                  onValueChange={(value) => setEditForm({ ...editForm, categoryId: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione uma categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories && categories.map((category: any) => (
+                      <SelectItem key={category.id} value={category.id.toString()}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="edit-image">URL da Imagem</Label>
+                <Input
+                  id="edit-image"
+                  value={editForm.image}
+                  onChange={(e) => setEditForm({ ...editForm, image: e.target.value })}
+                  placeholder="https://exemplo.com/imagem.jpg"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-2">
+              <Button 
+                variant="outline" 
+                onClick={cancelEdit}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                onClick={() => updateItem.mutate({ id: editingItem.id, ...editForm })}
+                disabled={!editForm.name || !editForm.price || !editForm.categoryId}
+              >
+                Salvar Alterações
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Menu Items List */}
       <div className="grid gap-4">
         {items && items.map((item: any) => (
@@ -297,10 +450,23 @@ function MenuManager() {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => startEdit(item)}
+                  >
                     <Edit className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" size="sm" className="text-red-600">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="text-red-600 hover:bg-red-50"
+                    onClick={() => {
+                      if (confirm(`Tem certeza que deseja excluir "${item.name}"?`)) {
+                        deleteItem.mutate(item.id);
+                      }
+                    }}
+                  >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -315,6 +481,15 @@ function MenuManager() {
 
 function GalleryManager() {
   const [newImage, setNewImage] = useState({
+    title: "",
+    description: "",
+    imageUrl: "",
+    category: "food",
+    featured: false
+  });
+
+  const [editingImage, setEditingImage] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
     title: "",
     description: "",
     imageUrl: "",
@@ -343,6 +518,16 @@ function GalleryManager() {
     },
   });
 
+  const updateImage = useMutation({
+    mutationFn: async ({ id, ...image }: any) => {
+      await apiRequest("PUT", `/api/admin/gallery/${id}`, image);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/gallery"] });
+      setEditingImage(null);
+    },
+  });
+
   const deleteImage = useMutation({
     mutationFn: async (id: number) => {
       await apiRequest("DELETE", `/api/admin/gallery/${id}`);
@@ -351,6 +536,28 @@ function GalleryManager() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/gallery"] });
     },
   });
+
+  const startEditImage = (image: any) => {
+    setEditingImage(image);
+    setEditForm({
+      title: image.title,
+      description: image.description,
+      imageUrl: image.imageUrl,
+      category: image.category,
+      featured: image.featured || false
+    });
+  };
+
+  const cancelEditImage = () => {
+    setEditingImage(null);
+    setEditForm({
+      title: "",
+      description: "",
+      imageUrl: "",
+      category: "food",
+      featured: false
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -424,6 +631,79 @@ function GalleryManager() {
         </CardContent>
       </Card>
 
+      {/* Edit Image Modal */}
+      {editingImage && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Editar Imagem: {editingImage.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="edit-title">Título</Label>
+                <Input
+                  id="edit-title"
+                  value={editForm.title}
+                  onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                  placeholder="Título da imagem"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-category">Categoria</Label>
+                <Select 
+                  value={editForm.category} 
+                  onValueChange={(value) => setEditForm({ ...editForm, category: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="food">Comida</SelectItem>
+                    <SelectItem value="restaurant">Restaurante</SelectItem>
+                    <SelectItem value="events">Eventos</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="edit-imageUrl">URL da Imagem</Label>
+              <Input
+                id="edit-imageUrl"
+                value={editForm.imageUrl}
+                onChange={(e) => setEditForm({ ...editForm, imageUrl: e.target.value })}
+                placeholder="https://exemplo.com/imagem.jpg"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="edit-description">Descrição</Label>
+              <Textarea
+                id="edit-description"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                placeholder="Descrição da imagem..."
+              />
+            </div>
+
+            <div className="flex justify-end space-x-2">
+              <Button 
+                variant="outline" 
+                onClick={cancelEditImage}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                onClick={() => updateImage.mutate({ id: editingImage.id, ...editForm })}
+                disabled={!editForm.title || !editForm.imageUrl}
+              >
+                Salvar Alterações
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Gallery Images Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {images && images.map((image: any) => (
@@ -442,14 +722,22 @@ function GalleryManager() {
                 <div className="flex justify-between items-center">
                   <Badge variant="outline">{image.category}</Badge>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => startEditImage(image)}
+                    >
                       <Edit className="w-4 h-4" />
                     </Button>
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="text-red-600"
-                      onClick={() => deleteImage.mutate(image.id)}
+                      className="text-red-600 hover:bg-red-50"
+                      onClick={() => {
+                        if (confirm(`Tem certeza que deseja excluir "${image.title}"?`)) {
+                          deleteImage.mutate(image.id);
+                        }
+                      }}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

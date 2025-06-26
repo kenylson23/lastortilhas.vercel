@@ -231,6 +231,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.put('/api/admin/menu/items/:id', isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = insertMenuItemSchema.parse(req.body);
+      const item = await storage.updateMenuItem(parseInt(id), validatedData);
+      res.json(item);
+    } catch (error) {
+      console.error("Error updating menu item:", error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid item data", errors: error.errors });
+      } else {
+        res.status(500).json({ message: "Failed to update item" });
+      }
+    }
+  });
+
+  app.delete('/api/admin/menu/items/:id', isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteMenuItem(parseInt(id));
+      res.json({ message: "Item deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting menu item:", error);
+      res.status(500).json({ message: "Failed to delete item" });
+    }
+  });
+
   // Reservation Management
   app.get('/api/admin/reservations', isAdmin, async (req, res) => {
     try {

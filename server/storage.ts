@@ -35,6 +35,8 @@ export interface IStorage {
   getAllMenuItems(): Promise<MenuItem[]>;
   createMenuCategory(category: InsertMenuCategory): Promise<MenuCategory>;
   createMenuItem(item: InsertMenuItem): Promise<MenuItem>;
+  updateMenuItem(id: number, item: InsertMenuItem): Promise<MenuItem>;
+  deleteMenuItem(id: number): Promise<void>;
   
   // Reservation operations
   createReservation(reservation: InsertReservation): Promise<Reservation>;
@@ -116,6 +118,21 @@ export class DatabaseStorage implements IStorage {
       .values(item)
       .returning();
     return newItem;
+  }
+
+  async updateMenuItem(id: number, item: InsertMenuItem): Promise<MenuItem> {
+    const [updatedItem] = await db
+      .update(menuItems)
+      .set(item)
+      .where(eq(menuItems.id, id))
+      .returning();
+    return updatedItem;
+  }
+
+  async deleteMenuItem(id: number): Promise<void> {
+    await db
+      .delete(menuItems)
+      .where(eq(menuItems.id, id));
   }
 
   // Reservation operations
