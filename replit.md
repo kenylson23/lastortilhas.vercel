@@ -77,7 +77,7 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## External Dependencies
 
 ### Core Dependencies
-- **Database**: Neon PostgreSQL (serverless)
+- **Database**: Supabase PostgreSQL (with transaction pooler)
 - **Authentication**: Replit Auth service
 - **UI Library**: Radix UI primitives with Shadcn/ui
 - **Validation**: Zod schema validation
@@ -122,7 +122,10 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 - **Reservation system** - Fixed modal functionality and WhatsApp integration (+244 949639932)
 - **Branding update** - Integrated custom Las Tortilhas logo in navigation
 - **Lazy loading implemented** - Added custom loading screens using restaurant logo
-- **All systems operational** - Website ready for deployment and customer use
+- **Performance optimization** - Removed excessive authentication requests for faster loading
+- **Modal fixes** - Corrected registration modal to work properly
+- **Supabase migration prep** - Updated database configuration for Supabase pooler connection
+- **Migration script** - Created automated data migration tool for smooth transition
 
 ## User Preferences
 
