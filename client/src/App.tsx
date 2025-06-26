@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/components/Loading";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
+import AdminPanel from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
         <>
           <Route path="/" component={Home} />
           <Route path="/home" component={Home} />
+          <Route path="/admin" component={AdminPanel} />
         </>
       )}
       <Route component={NotFound} />

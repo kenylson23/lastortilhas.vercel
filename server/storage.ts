@@ -4,16 +4,19 @@ import {
   menuItems,
   reservations,
   contactMessages,
+  galleryImages,
   type User,
   type UpsertUser,
   type MenuCategory,
   type MenuItem,
   type Reservation,
   type ContactMessage,
+  type GalleryImage,
   type InsertMenuCategory,
   type InsertMenuItem,
   type InsertReservation,
   type InsertContactMessage,
+  type InsertGalleryImage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and } from "drizzle-orm";
@@ -42,6 +45,16 @@ export interface IStorage {
   // Contact operations
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
+  updateContactMessageStatus(id: number, status: string): Promise<void>;
+  
+  // Gallery operations
+  getGalleryImages(): Promise<GalleryImage[]>;
+  createGalleryImage(image: InsertGalleryImage): Promise<GalleryImage>;
+  updateGalleryImage(id: number, image: Partial<InsertGalleryImage>): Promise<GalleryImage>;
+  deleteGalleryImage(id: number): Promise<void>;
+  
+  // Admin operations
+  isAdmin(userId: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -171,6 +184,52 @@ export class DatabaseStorage implements IStorage {
       })
       .returning();
     return user;
+  }
+
+  async updateContactMessageStatus(id: number, status: string): Promise<void> {
+    await db
+      .update(contactMessages)
+      .set({ status })
+      .where(eq(contactMessages.id, id));
+  }
+
+  // Gallery operations
+  async getGalleryImages(): Promise<GalleryImage[]> {
+    return await db
+      .select()
+      .from(galleryImages)
+      .where(eq(galleryImages.active, true))
+      .orderBy(galleryImages.order);
+  }
+
+  async createGalleryImage(image: InsertGalleryImage): Promise<GalleryImage> {
+    const [newImage] = await db
+      .insert(galleryImages)
+      .values(image)
+      .returning();
+    return newImage;
+  }
+
+  async updateGalleryImage(id: number, image: Partial<InsertGalleryImage>): Promise<GalleryImage> {
+    const [updatedImage] = await db
+      .update(galleryImages)
+      .set({ ...image, updatedAt: new Date() })
+      .where(eq(galleryImages.id, id))
+      .returning();
+    return updatedImage;
+  }
+
+  async deleteGalleryImage(id: number): Promise<void> {
+    await db
+      .update(galleryImages)
+      .set({ active: false, updatedAt: new Date() })
+      .where(eq(galleryImages.id, id));
+  }
+
+  // Admin operations
+  async isAdmin(userId: string): Promise<boolean> {
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    return user?.role === 'admin';
   }
 }
 

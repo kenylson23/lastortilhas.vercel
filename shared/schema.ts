@@ -89,6 +89,19 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const galleryImages = pgTable("gallery_images", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  description: text("description"),
+  imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  category: varchar("category", { length: 100 }).default("food"),
+  order: integer("order").default(0),
+  featured: boolean("featured").default(false),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
@@ -124,6 +137,12 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).om
   createdAt: true,
 });
 
+export const insertGalleryImageSchema = createInsertSchema(galleryImages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -131,8 +150,10 @@ export type MenuCategory = typeof menuCategories.$inferSelect;
 export type MenuItem = typeof menuItems.$inferSelect;
 export type Reservation = typeof reservations.$inferSelect;
 export type ContactMessage = typeof contactMessages.$inferSelect;
+export type GalleryImage = typeof galleryImages.$inferSelect;
 export type InsertMenuCategory = z.infer<typeof insertMenuCategorySchema>;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
+export type InsertGalleryImage = z.infer<typeof insertGalleryImageSchema>;
 export type InsertReservation = {
   userId?: string | null;
   name: string;

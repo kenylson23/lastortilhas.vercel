@@ -97,6 +97,16 @@ export default function Navigation() {
                 <span className="text-white text-sm">
                   Olá, {user?.firstName || user?.email || 'Utilizador'}
                 </span>
+                {user?.role === 'admin' && (
+                  <Button 
+                    onClick={() => window.location.href = '/admin'}
+                    variant="outline"
+                    className="border-mexican-red text-mexican-red hover:bg-mexican-red hover:text-white"
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    Admin
+                  </Button>
+                )}
                 <Button 
                   onClick={() => window.location.href = '/api/logout'}
                   variant="outline"
