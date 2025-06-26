@@ -142,6 +142,7 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
   - Contact management (view and mark as read/responded)
   - Role-based access control (admin/user roles)
   - Fixed admin authentication (admin@lastortilhas.com / admin123)
+  - Navigation enhancement with "Voltar ao Site" button for easy site access
 
 ## User Preferences
 

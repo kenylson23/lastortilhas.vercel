@@ -15,7 +15,9 @@ import {
   Edit,
   Trash2,
   Plus,
-  Eye
+  Eye,
+  ArrowLeft,
+  Home
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -561,12 +563,24 @@ export default function AdminPanel() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Painel Administrativo - Las Tortilhas
-          </h1>
-          <p className="text-gray-600">
-            Gerencie menu, reservas, galeria e contatos do restaurante
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Painel Administrativo - Las Tortilhas
+              </h1>
+              <p className="text-gray-600">
+                Gerencie menu, reservas, galeria e contatos do restaurante
+              </p>
+            </div>
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/'}
+              className="flex items-center gap-2 bg-white hover:bg-gray-50 border-gray-300"
+            >
+              <Home className="h-4 w-4" />
+              Voltar ao Site
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}
