@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,25 +88,12 @@ export default function Navigation() {
               Contacto
             </button>
             
-            {!isAuthenticated ? (
-              <Button 
-                onClick={openRegisterModal}
-                className="bg-mexican-red hover:bg-red-700 text-white"
-              >
-                Registar
-              </Button>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <span className="text-white">Olá, {user?.firstName || 'Utilizador'}</span>
-                <Button 
-                  onClick={() => window.location.href = '/api/logout'}
-                  variant="outline"
-                  className="text-white border-white hover:bg-white hover:text-rich-brown"
-                >
-                  Sair
-                </Button>
-              </div>
-            )}
+            <Button 
+              onClick={openRegisterModal}
+              className="bg-mexican-red hover:bg-red-700 text-white"
+            >
+              Registar
+            </Button>
           </div>
 
           {/* Mobile Menu */}
@@ -151,25 +136,12 @@ export default function Navigation() {
                   Contacto
                 </button>
                 
-                {!isAuthenticated ? (
-                  <Button 
-                    onClick={openRegisterModal}
-                    className="bg-mexican-red hover:bg-red-700 text-white w-full"
-                  >
-                    Registar
-                  </Button>
-                ) : (
-                  <div className="space-y-4">
-                    <p className="text-warm-sand">Olá, {user?.firstName || 'Utilizador'}</p>
-                    <Button 
-                      onClick={() => window.location.href = '/api/logout'}
-                      variant="outline"
-                      className="text-white border-white hover:bg-white hover:text-rich-brown w-full"
-                    >
-                      Sair
-                    </Button>
-                  </div>
-                )}
+                <Button 
+                  onClick={openRegisterModal}
+                  className="bg-mexican-red hover:bg-red-700 text-white w-full"
+                >
+                  Registar
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

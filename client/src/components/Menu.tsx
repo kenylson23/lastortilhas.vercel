@@ -125,10 +125,7 @@ export default function Menu() {
     { slug: "bebidas", name: "Bebidas", nameEn: "Beverages" },
   ];
 
-  // Show loading screen while initial data is loading
-  if (categoriesLoading && itemsLoading) {
-    return <Loading />;
-  }
+  // Remove loading screen to improve performance
 
   return (
     <section id="menu" className="py-20 bg-white">
