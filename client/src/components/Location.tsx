@@ -8,10 +8,9 @@ export default function Location() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   const openReservationModal = () => {
-    const modal = document.getElementById("reservationModal");
-    modal?.classList.remove("hidden");
-    modal?.classList.add("flex");
-    document.body.style.overflow = "hidden";
+    if ((window as any).openReservationModal) {
+      (window as any).openReservationModal();
+    }
   };
 
   return (

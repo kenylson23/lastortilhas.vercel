@@ -97,6 +97,7 @@ export default function ReservationModal() {
   // Listen for modal open events
   React.useEffect(() => {
     const handleModalOpen = () => {
+      console.log("Opening reservation modal");
       setIsOpen(true);
       document.body.style.overflow = "hidden";
     };
@@ -122,8 +123,10 @@ export default function ReservationModal() {
   // Set minimum date to today
   const today = new Date().toISOString().split('T')[0];
 
+  if (!isOpen) return null;
+
   return (
-    <div id="reservationModal" className={`fixed inset-0 bg-black bg-opacity-50 z-50 ${isOpen ? "flex" : "hidden"} items-center justify-center p-4`}>
+    <div id="reservationModal" className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <AnimatePresence>
         {isOpen && (
           <motion.div
