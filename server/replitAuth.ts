@@ -8,8 +8,9 @@ import memoize from "memoizee";
 import connectPg from "connect-pg-simple";
 import { storage } from "./storage";
 
-if (!process.env.REPLIT_DOMAINS) {
-  throw new Error("Environment variable REPLIT_DOMAINS not provided");
+// Skip Replit Auth validation on Railway deployment
+if (!process.env.REPLIT_DOMAINS && process.env.NODE_ENV === 'production') {
+  console.log('⚠️  Running on Railway - Replit Auth disabled for this environment');
 }
 
 const getOidcConfig = memoize(
@@ -71,6 +72,18 @@ export async function setupAuth(app: Express) {
   app.use(getSession());
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // Skip Replit Auth setup on Railway (production without REPLIT_DOMAINS)
+  if (!process.env.REPLIT_DOMAINS && process.env.NODE_ENV === 'production') {
+    console.log('Auth: Railway mode - simplified authentication');
+    return;
+  }
+
+  // Replit Auth setup (only when REPLIT_DOMAINS is available)
+  if (!process.env.REPLIT_DOMAINS) {
+    console.log('Auth: Development mode - Replit Auth disabled');
+    return;
+  }
 
   const config = await getOidcConfig();
 
