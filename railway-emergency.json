@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm install --production=false"
+    "buildCommand": "npm ci --include=dev && echo 'Build completed - using development server'"
   },
   "deploy": {
     "startCommand": "NODE_ENV=production npx tsx server/index.ts",
