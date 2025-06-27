@@ -14,15 +14,16 @@ export function useAuth() {
     queryKey: ["/api/auth/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
     retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // 15 minutes - increase cache time
+    gcTime: 30 * 60 * 1000, // 30 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchInterval: false,
+    refetchOnReconnect: false,
   });
 
-  // Consider loading complete when we have data OR when we have an error (auth failed)
-  const authLoading = isLoading && !isError;
+  // Quick resolution - don't wait indefinitely
+  const authLoading = isLoading && !isError && !user;
 
   return {
     user,
