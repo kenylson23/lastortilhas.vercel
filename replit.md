@@ -115,6 +115,16 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 
 ## Recent Changes
 
+### June 27, 2025
+- **Vercel deployment preparation** - Configured complete Vercel deployment setup:
+  - Created `vercel.json` with optimized build and routing configuration
+  - Added `api/index.ts` as Vercel-compatible API entry point
+  - Created `.env.example` documenting required environment variables
+  - Added `VERCEL_DEPLOY.md` with comprehensive deployment instructions
+  - Created `server/db-vercel.ts` with HTTP-based database connection for serverless
+  - Optimized build process for Vercel's static + serverless architecture
+  - Set up proper routing for frontend (static) and API (serverless functions)
+
 ### June 26, 2025
 - **Initial setup** - Complete Mexican restaurant website created
 - **Database setup** - PostgreSQL database provisioned and connected successfully
