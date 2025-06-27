@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./simpleDirectAuth";
+import { setupAuth, isAuthenticated } from "./simpleAuth";
 import { insertReservationSchema, insertContactMessageSchema, insertMenuCategorySchema, insertMenuItemSchema, insertGalleryImageSchema } from "@shared/schema";
 import { z } from "zod";
 
@@ -23,23 +23,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.id;
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      
-      // Return user without sensitive data
-      const { password, ...userWithoutPassword } = user;
-      res.json(userWithoutPassword);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  // Auth routes are handled in simpleAuth.ts
 
   // Get auth status (public endpoint)
   app.get('/api/auth/status', (req, res) => {

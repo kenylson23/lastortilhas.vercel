@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { X, UserPlus, Mail, Lock, Shield, CheckCircle, AlertCircle } from "lucide-react";
+import { queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 interface ValidationState {
   email: { valid: boolean; message: string };
@@ -22,6 +24,7 @@ export default function RegisterModal() {
     password: { valid: false, message: "" }
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -45,33 +48,53 @@ export default function RegisterModal() {
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("As senhas não coincidem");
+      toast({
+        title: "Erro",
+        description: "As senhas não coincidem",
+        variant: "destructive"
+      });
       return;
     }
 
     setIsLoading(true);
-    
-    // Create form data for submission
-    const form = new FormData();
-    form.append('email', formData.email);
-    form.append('password', formData.password);
 
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
-        body: form
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
       });
 
-      if (response.redirected) {
-        window.location.href = response.url;
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Sucesso",
+          description: "Login realizado com sucesso!",
+        });
+        
+        // Invalidate auth cache to update authentication state
+        await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        
+        closeModal();
       } else {
-        const text = await response.text();
-        if (text.includes('error=1')) {
-          alert('Erro no login. Tente novamente.');
-        }
+        toast({
+          title: "Erro no login",
+          description: data.message || "Credenciais inválidas",
+          variant: "destructive"
+        });
       }
     } catch (error) {
-      alert('Erro de conexão. Tente novamente.');
+      toast({
+        title: "Erro de conexão",
+        description: "Tente novamente em alguns momentos",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }

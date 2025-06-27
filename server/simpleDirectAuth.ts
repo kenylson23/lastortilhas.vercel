@@ -262,13 +262,7 @@ export async function setupAuth(app: Express) {
     });
   });
 
-  app.get('/api/auth/user', (req, res) => {
-    if (req.isAuthenticated()) {
-      res.json(req.user);
-    } else {
-      res.status(401).json({ message: 'Unauthorized' });
-    }
-  });
+  // Auth user route is handled in routes.ts to avoid duplication
 }
 
 export const isAuthenticated: RequestHandler = (req, res, next) => {
