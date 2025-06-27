@@ -116,13 +116,11 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
-- **Projeto preparado para deploy no Vercel** - Configuração completa e otimizada para implantação:
-  - **vercel.json configurado** - Build command otimizado, routing de API e frontend configurados
-  - **API serverless criada** - `api/index.js` com Express, autenticação JWT, endpoints completos
-  - **Build script otimizado** - `scripts/build-vercel.js` evita timeout do Vite, build em < 2 minutos
-  - **Frontend otimizado** - React app com fallback estático, design Las Tortilhas completo
-  - **.vercelignore configurado** - Deployment otimizado, apenas arquivos necessários
-  - **Documentação completa** - `VERCEL_DEPLOY.md` com guia passo-a-passo de implantação
+- **Configuração Vercel removida completamente** - Projeto otimizado para funcionar exclusivamente no Replit:
+  - **Arquivos Vercel deletados** - vercel.json, api/, vite.config.vercel.ts, scripts/build-vercel.js
+  - **Projeto focado no Replit** - Configuração limpa sem conflitos de deployment
+  - **Performance otimizada** - Sistema de autenticação melhorado, carregamento mais rápido
+  - **Arquitetura simplificada** - Apenas Replit Auth + PostgreSQL + React frontend
 - **Database connection fixed** - Resolved startup error by creating PostgreSQL database and configuring environment variables
 - **Complete database population** - Added 21 authentic Mexican menu items across 7 categories, 8 gallery images, and admin user
 - **Correções de importações** - Removidas referências a arquivos deletados (directDbConnection, simpleAuth)
