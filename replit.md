@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Comandos de construção e instalação configurados** - Scripts otimizados para diferentes ambientes:
+  - **Script unificado** - `./scripts/setup.sh` com comandos para dev, prod, build, install, clean
+  - **Instalação desenvolvimento** - Configuração completa com todas as dependências e verificações
+  - **Instalação produção** - Otimizada com apenas dependências essenciais e auditoria de segurança
+  - **Build produção** - Compilação minificada com Vite + esbuild, source maps e verificação de integridade
+  - **Manutenção** - Scripts de limpeza completa e reinstalação limpa disponíveis
 - **Fluxo de Dados completo implementado** - Conforme diagrama de arquitetura fornecido:
   - **Solicitações do cliente** - Frontend React com TanStack Query otimizado para dual auth (sessões + JWT)
   - **Autenticação dupla** - Middleware unificado valida sessões PostgreSQL e tokens JWT automaticamente
