@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { getDeploymentConfig, logDeploymentInfo } from "./config";
 
 const app = express();
 app.use(express.json());
@@ -70,17 +71,20 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Obter configuração de deployment flexível
+  const config = getDeploymentConfig();
+  
   const server = await registerRoutes(app);
 
-  // 5. Tratamento de erros centralizado com códigos de status HTTP adequados
+  // Tratamento de erros centralizado
   app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     
-    // Log estruturado do erro
-    log(`[ERROR] ${req.method} ${req.path} - ${status}: ${message}`);
+    if (config.features.logging) {
+      log(`[ERROR] ${req.method} ${req.path} - ${status}: ${message}`);
+    }
     
-    // Resposta de erro padronizada
     const errorResponse: any = {
       success: false,
       error: message,
@@ -90,35 +94,30 @@ app.use((req, res, next) => {
       method: req.method
     };
 
-    // Adicionar stack trace apenas em desenvolvimento
-    if (process.env.NODE_ENV === 'development' && err.stack) {
+    if (config.server.environment === 'development' && err.stack) {
       errorResponse.stack = err.stack;
     }
 
     res.status(status).json(errorResponse);
     
-    // Log adicional para erros críticos
     if (status >= 500) {
       console.error('Critical error:', err);
     }
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  // Configurar ambiente baseado na configuração flexível
+  if (config.features.viteDevServer) {
     await setupVite(app, server);
-  } else {
+  } else if (config.features.staticFiles) {
     serveStatic(app);
   }
 
-  // Use PORT environment variable for Railway, fallback to 5000 for Replit
-  const port = process.env.PORT || 5000;
+  // Iniciar servidor com configuração flexível
   server.listen({
-    port,
-    host: "0.0.0.0",
+    port: config.server.port,
+    host: config.server.host,
     reusePort: true,
   }, () => {
-    log(`serving on port ${port}`);
+    logDeploymentInfo(config);
   });
 })();

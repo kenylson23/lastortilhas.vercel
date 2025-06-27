@@ -113,6 +113,12 @@ Las Tortilhas is a full-stack Mexican restaurant web application built for the A
 ## Changelog
 
 ### June 27, 2025
+- **Arquitetura flexível implementada** - Projeto otimizado para deployment universal:
+  - **Configuração automática** - Detecção automática de plataforma (Replit, Railway, Vercel, Render, Heroku, etc.)
+  - **Database flexível** - Suporte para múltiplos provedores (Supabase, Neon, Railway, Vercel Postgres)
+  - **SSL adaptativo** - Configuração SSL/TLS automática baseada no ambiente
+  - **Pool de conexões** - Configuração otimizada por plataforma
+  - **Logging inteligente** - Sistema de logs configurável por ambiente
 - **Erro de módulo corrigido** - Resolvido erro "Não é possível encontrar o módulo '/app/dist/index.js'":
   - **Causa identificada** - Arquivos de configuração do Railway conflitando com ambiente Replit
   - **Arquivos removidos** - railway.json, Procfile, Dockerfile, e outros arquivos Railway
