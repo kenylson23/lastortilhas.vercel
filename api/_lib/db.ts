@@ -2,14 +2,17 @@ import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from '../../shared/schema';
 
-// Configuração específica para Vercel
+// Configuração específica para Vercel com fallbacks
 const databaseUrl = 
-  process.env.POSTGRES_URL || // Vercel Postgres
+  process.env.DATABASE_PRIVATE_URL ||
   process.env.DATABASE_URL || // Fallback padrão
-  process.env.SUPABASE_DATABASE_URL; // Supabase
+  process.env.SUPABASE_DATABASE_URL || // Supabase
+  process.env.POSTGRES_URL || // Vercel Postgres
+  process.env.NEON_DATABASE_URL ||
+  process.env.PLANETSCALE_DATABASE_URL;
 
 if (!databaseUrl) {
-  throw new Error('Database URL not configured. Set POSTGRES_URL environment variable.');
+  throw new Error('Database URL not configured. Configure DATABASE_URL or other database environment variables.');
 }
 
 // Pool otimizado para serverless functions

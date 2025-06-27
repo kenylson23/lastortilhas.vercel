@@ -25,7 +25,7 @@ const getOidcConfig = memoize(
       
       return await client.discovery(new URL(issuerUrl), replId);
     } catch (error) {
-      console.error("Failed to configure OIDC:", error.message);
+      console.error("Failed to configure OIDC:", error instanceof Error ? error.message : String(error));
       throw error;
     }
   },

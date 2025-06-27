@@ -113,6 +113,12 @@ Las Tortilhas is a full-stack Mexican restaurant web application built for the A
 ## Changelog
 
 ### June 27, 2025
+- **Server startup issues resolved** - Fixed critical startup problems:
+  - **Database configuration unified** - Resolved POSTGRES_URL environment variable conflicts
+  - **Authentication system stabilized** - Added better error handling for OIDC configuration
+  - **API database connections fixed** - Updated Vercel API configuration to use proper fallbacks
+  - **Server error handling improved** - Added comprehensive try-catch blocks for startup
+  - **Application fully functional** - All endpoints tested and working correctly
 - **Vercel deployment preparado** - Projeto otimizado para deployment no Vercel:
   - **APIs serverless** - Funções serverless para auth, menu, reservas e galeria criadas
   - **Configuração Vercel** - vercel.json com rewrites, CORS e environment variables
