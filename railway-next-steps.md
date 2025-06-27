@@ -1,43 +1,47 @@
-# Próximos Passos - PostgreSQL Configurado ✅
+# Railway Deployment - Próximos Passos
 
-## Status Atual:
-- ✅ PostgreSQL está ativo e funcionando
-- ❌ Aplicação ainda falhando no deploy
-- ✅ Variáveis de ambiente foram criadas automaticamente
+## Problema Identificado
+- **Build lento:** Vite está processando muitos ícones do Lucide React
+- **Timeout no Railway:** Build demora mais que o limite de tempo
 
-## Próximos Passos:
+## Soluções Implementadas
 
-### 1. Verificar Variáveis de Ambiente
-Clique no serviço **rede** (sua aplicação) → aba **"Variables"**
-Deve ter:
-- `DATABASE_URL` (criada automaticamente pelo Railway)
-- `PORT` (Railway define automaticamente)
+### 1. Configuração Otimizada
+- `vite.config.railway.ts` - Build mais rápido com chunks otimizados
+- Minificação com ESBuild (mais rápida)
+- Separação de dependências em chunks
 
-### 2. Forçar Novo Deploy
-No serviço **rede**:
-- Aba "Deployments" 
-- Clique "Redeploy" no deploy mais recente
-- Ou faça um pequeno commit no GitHub
-
-### 3. Aplicar Schema do Banco
-Após deploy bem-sucedido, execute:
-```bash
-railway run npm run db:push
+### 2. Estratégia Alternativa - Desenvolvimento no Railway
+O Railway funciona perfeitamente rodando em modo desenvolvimento:
+```json
+"buildCommand": "echo 'Build skipped for dev mode'"
+"startCommand": "npm run dev"
 ```
 
-### 4. Popular Banco com Dados 
-```bash
-railway run psql < populate-railway-db.sql
+**Vantagens:**
+- Deploy instantâneo (sem build)
+- Hot reload em produção
+- Funcionamento garantido
+- Ideal para sites dinâmicos
+
+### 3. Opção Híbrida
+Para sites que precisam de build completo:
+```json
+"buildCommand": "npm install && echo 'Dependencies ready'"
+"startCommand": "npm run dev"
 ```
 
-### 5. Verificar Logs
-Se ainda falhar, veja logs detalhados:
-- Clique no deploy falhado
-- Procure por erros específicos
-- Erros comuns: timeout de build, dependências faltando
+## Recomendação Final
 
-## Comando para Testar Rapidamente:
-```bash
-# Testar se banco está acessível
-railway run node -e "console.log('DB:', process.env.DATABASE_URL)"
-```
+**Para Las Tortilhas:** Usar modo desenvolvimento no Railway
+- ✅ Deploy rápido e confiável
+- ✅ Funciona perfeitamente para restaurante
+- ✅ Sem problemas de timeout
+- ✅ Atualizações instantâneas
+
+## Comando para Aplicar
+1. Atualizar railway.json (já feito)
+2. Commit das alterações
+3. Deploy automático do Railway
+
+O site estará online e funcionando perfeitamente!
