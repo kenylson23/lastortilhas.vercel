@@ -1,24 +1,14 @@
 {
-  "version": 2,
   "functions": {
-    "api/**/*.ts": {
-      "runtime": "node_18.x"
+    "api/**/*.{js,ts}": {
+      "memory": 1024,
+      "maxDuration": 30
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.ts"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/client/$1"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     }
-  ],
-  "installCommand": "npm install",
-  "buildCommand": "vite build",
-  "outputDirectory": "dist/client",
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }

@@ -4,11 +4,11 @@
 
 ### 1. Preparação do Projeto
 O projeto já está configurado para deploy no Vercel com:
-- ✅ `vercel.json` configurado com **functions** modernas (não builds legadas)
-- ✅ Serverless Functions com `@vercel/node@3` runtime
-- ✅ `api/index.ts` adaptado para o padrão Vercel moderno
-- ✅ `.env.example` com variáveis necessárias
-- ✅ Build otimizado para produção
+- ✅ **Zero-Config**: Vercel auto-detecta e otimiza automaticamente
+- ✅ **Minimal vercel.json**: Apenas configurações essenciais
+- ✅ **Framework-agnostic**: Funciona com Vite + Express
+- ✅ Serverless Functions otimizadas com 1GB memória
+- ✅ `api/index.ts` adaptado para padrão Vercel 2025
 - ✅ Configuração específica para Supabase
 
 ### 2. Configurar Supabase (Banco PostgreSQL)
@@ -33,22 +33,34 @@ O projeto já está configurado para deploy no Vercel com:
    ```
 4. Substitua `[YOUR-PASSWORD]` pela senha que você criou
 
-### 3. Variáveis de Ambiente no Vercel
-Configure no dashboard do Vercel as seguintes variáveis:
+### 3. Configuração no Dashboard Vercel
 
+#### 3.1. Build Settings (Settings > General):
+```
+Framework Preset: Other
+Build Command: vite build
+Output Directory: dist/client  
+Install Command: npm install
+Node.js Version: 18.x
+```
+
+#### 3.2. Environment Variables (Settings > Environment Variables):
 ```
 DATABASE_URL=postgresql://postgres:[SUA-SENHA]@db.[PROJECT-REF].supabase.co:5432/postgres
 SESSION_SECRET=minimo-32-caracteres-aleatorios-super-seguros
 NODE_ENV=production
 ```
 
-#### 3.1. Como Configurar no Vercel:
-1. No dashboard do Vercel, vá no seu projeto
-2. Clique em **Settings** > **Environment Variables**
-3. Adicione uma por uma:
-   - **DATABASE_URL**: Cole a string de conexão do Supabase
-   - **SESSION_SECRET**: Gere uma chave aleatória de 32+ caracteres
-   - **NODE_ENV**: Digite `production`
+#### 3.3. Como Configurar:
+1. **Build Settings**: Settings > General > Build & Development Settings
+   - Framework Preset: **Other**
+   - Build Command: **vite build**  
+   - Output Directory: **dist/client**
+   - Install Command: **npm install**
+
+2. **Environment Variables**: Settings > Environment Variables
+   - Adicione as 3 variáveis acima
+   - Marque: **Production**, **Preview**, **Development**
 4. Para todas, selecione **Production**, **Preview**, e **Development**
 
 ### 4. Deploy no Vercel
