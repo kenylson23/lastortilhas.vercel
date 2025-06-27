@@ -34,7 +34,7 @@ O Vercel evoluiu para uma abordagem **"configuration through dashboard"** onde:
 
 ### **Dashboard Configuration (Preferred)**
 - **Build Command**: `vite build`
-- **Output Directory**: `dist/client`
+- **Output Directory**: `dist/public`
 - **Install Command**: `npm install`
 - **Node.js Version**: `18.x`
 - **Framework Preset**: `Other`
@@ -90,7 +90,7 @@ O Vercel evoluiu para uma abordagem **"configuration through dashboard"** onde:
 ```
 Framework Preset: Other
 Build Command: vite build
-Output Directory: dist/client
+Output Directory: dist/public
 Install Command: npm install
 Node.js Version: 18.x
 ```
