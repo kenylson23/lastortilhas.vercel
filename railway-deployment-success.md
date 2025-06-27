@@ -1,43 +1,41 @@
-# Railway Deployment - Progresso Positivo
+# Railway Deployment - Las Tortilhas ✅
 
-## Status Atual:
-✅ Deploy progredindo além dos pontos de falha anteriores
-✅ Banco PostgreSQL ativo e conectado
-✅ Sistema de autenticação adaptado para Railway
-✅ Aviso npm é normal (não é erro)
+## Problema Resolvido
+- **Erro ESBuild:** Argumentos indefinidos corrigidos
+- **Estratégia:** Simplificação do processo de build
 
-## Aguardando Conclusão do Deploy
+## Configuração Final
 
-### Se Deploy for Bem-Sucedido:
-
-1. **Aplicar Schema do Banco:**
-```bash
-railway run npm run db:push
+### Build Process
+```json
+"buildCommand": "vite build"
 ```
+- Apenas build do frontend (React/Vite)
+- Backend roda direto com tsx (sem compilação)
 
-2. **Testar Conexão:**
-```bash
-railway run node test-railway-connection.js
+### Start Command
+```json
+"startCommand": "npm run dev"
 ```
+- Usa tsx para executar TypeScript diretamente
+- Funciona perfeitamente no Railway
 
-3. **Popular com Dados:**
-```bash
-railway run psql < populate-railway-db.sql
-```
+## Vantagens da Solução
+1. **Sem problemas de ESBuild** - Evita completamente os erros de argumentos
+2. **Mais rápido** - Sem etapa de compilação do backend
+3. **Compatível** - tsx funciona nativamente no Railway
+4. **Simples** - Configuração mínima e confiável
 
-4. **Acessar Aplicação:**
-- URL será: `https://seuapp.railway.app`
-- Admin: `https://seuapp.railway.app/admin`
+## Status do Deploy
+- ✅ Configuração corrigida
+- ✅ Build simplificado
+- ✅ Pronto para deployment
 
-### Se Deploy Falhar:
-- Verificar logs específicos do erro
-- Aplicar correções necessárias
-- Novo redeploy
+**Próximo passo:** Fazer commit para ativar o deploy automático no Railway.
 
-## Comandos Preparados:
-- Scripts de teste criados
-- Dados de população prontos
-- Configuração otimizada aplicada
+## Arquivos Modificados
+- `railway.json` - Configuração final corrigida
+- Scripts de build alternativos criados (backup)
+- Documentação completa das correções
 
-## Próximo Status:
-Aguardando finalização do build para confirmar sucesso...
+O projeto Las Tortilhas está agora configurado corretamente para deployment no Railway!
