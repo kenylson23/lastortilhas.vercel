@@ -116,71 +116,19 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
-- **Arquivos de implantação completamente recriados** - Sistema completo incluindo functions e build:
-  - **Vercel.json v2** - Configuração otimizada com Node.js 20.x, functions com 1GB RAM, CORS e cache
-  - **API Serverless** - `api/index.mjs` com ES modules, JWT auth, PostgreSQL, bcrypt e endpoints completos
-  - **Build script completo** - `scripts/build-vercel-complete.js` com pipeline otimizado e verificações
-  - **Configurações de segurança** - Headers CSP, CORS, XSS protection e cache strategies
-  - **Documentação completa** - Guia passo-a-passo para deploy, troubleshooting e monitoramento
-- **Comandos de construção e instalação configurados** - Scripts otimizados para diferentes ambientes:
-  - **Script unificado** - `./scripts/setup.sh` com comandos para dev, prod, build, install, clean
-  - **Instalação desenvolvimento** - Configuração completa com todas as dependências e verificações
-  - **Instalação produção** - Otimizada com apenas dependências essenciais e auditoria de segurança
-  - **Build produção** - Compilação minificada com Vite + esbuild, source maps e verificação de integridade
-  - **Manutenção** - Scripts de limpeza completa e reinstalação limpa disponíveis
-- **Fluxo de Dados completo implementado** - Conforme diagrama de arquitetura fornecido:
-  - **Solicitações do cliente** - Frontend React com TanStack Query otimizado para dual auth (sessões + JWT)
-  - **Autenticação dupla** - Middleware unificado valida sessões PostgreSQL e tokens JWT automaticamente
-  - **Operações de banco** - Drizzle ORM com interações seguras e tipagem completa
-  - **Processamento de resposta** - Express middleware com formatação padronizada e logs estruturados
-  - **Tratamento de erros** - Sistema centralizado com códigos HTTP adequados e logging detalhado
-- **Sistema de Gerenciamento de Sessão Duplo implementado** - Conforme arquitetura de backend especificada:
-  - **Sessões tradicionais** - Mantido sistema original com PostgreSQL para implantação Replit
-  - **JWT Token support** - Addon JWT implementado para compatibilidade com Vercel
-  - **Middleware unificado** - Sistema dual que suporta ambos os métodos de autenticação
-  - **Compatibilidade total** - API funciona tanto com sessões quanto com tokens JWT
-  - **Endpoints RESTful** - Design de API mantido conforme especificação
-  - **CORS e autenticação** - Middleware personalizado registrado e ativo
-- **Problema de build do Vercel completamente resolvido** - Implementada solução definitiva para timeouts de build:
-  - **Script de build rápido** - Criado `scripts/build-fast-vercel.js` que bypassa o timeout do Vite com ícones lucide-react
-  - **Build em < 30 segundos** - Tempo de build reduzido de timeout infinito para menos de 30 segundos
-  - **Fallback robusto** - Página estática completa com informações do Las Tortilhas caso o React falhe
-  - **Configuração Vercel otimizada** - `vercel.json` atualizado com Node.js 20.x e configurações de performance
-  - **Conteúdo completo preservado** - Todas as funcionalidades mantidas: menu, galeria, reservas, admin
-  - **Deploy-ready** - Projeto 100% pronto para implantação no Vercel com documentação completa
-- **Vite build optimization** - Fixed critical build timeout issue that was preventing Vercel deployment:
-  - Created `scripts/build-optimized.js` to bypass lucide-react icon transformation bottleneck
-  - Updated `vercel.json` to use optimized build command avoiding Vite timeout
-  - Generated production-ready static files in under 5 seconds vs previous indefinite hang
-  - Build output includes complete Las Tortilhas restaurant website with Mexican theming
-  - All functionality preserved: menu display, contact info, SEO optimization, responsive design
+- **Limpeza completa de arquivos Vercel** - Removidos todos os arquivos relacionados à implantação no Vercel:
+  - **Arquivos de configuração** - Removidos vercel.json, .vercelignore, next.config.js
+  - **Scripts de build** - Removidos todos os scripts build-vercel-* e fix-vercel-build.sh
+  - **Arquivos de API serverless** - Removido diretório api/ e todas as functions serverless
+  - **Documentação Vercel** - Removidos todos os arquivos de documentação relacionados ao Vercel
+  - **Arquivos de autenticação duplicados** - Removidos auth-vercel.ts, db-vercel.ts, routes-vercel.ts
+  - **Scripts de migração** - Removidos scripts de migração para Supabase e configuração dual
 - **Database connection fixed** - Resolved startup error by creating PostgreSQL database and configuring environment variables
 - **Complete database population** - Added 21 authentic Mexican menu items across 7 categories, 8 gallery images, and admin user
-- **Vercel deployment optimization** - Fixed blank screen issue with improved vercel.json configuration and fallback HTML content
-- **Frontend loading enhancement** - Created robust index.html with fallback restaurant content ensuring visual display even if React fails to load
-- **Modern Vercel structure implemented** - Upgraded to Node.js 20.x runtime with ES modules (api/index.mjs)
-- **Serverless API optimization** - Created modern serverless functions with proper CORS and error handling
-- **Deploy-ready configuration** - Added .vercelignore, api/package.json, and comprehensive deployment documentation
-- **Vercel build optimization** - Fixed runtime version conflicts and optimized for 2-core 8GB build machines
-- **Production-ready performance** - Configured memory allocation, caching headers, and efficient build commands
-- **Vercel deployment issues completely resolved** - Fixed all build and frontend loading problems:
-  - **Build process optimization** - Created `scripts/fix-vercel-build.sh` that generates working React application
-  - **Frontend loading fix** - Replaced basic HTML with complete Las Tortilhas React app including authentication
-  - **Production-ready interface** - Beautiful landing page with Mexican design theme and full functionality
-  - **Complete site restoration** - Users now see full restaurant website instead of construction page
-- **Complete Vercel deployment optimization** - Enhanced deployment setup with production-ready optimizations:
-  - **Enhanced vercel.json** - Added version 2 configuration with Node.js 18, CORS headers, and proper routing
-  - **Optimized API entry point** - Enhanced `api/index.ts` with CORS configuration, session management, and error handling
-  - **Serverless database connection** - Improved `server/db-vercel.ts` with optimized connection pooling for serverless
-  - **Dedicated Vercel routes** - Created `server/routes-vercel.ts` with optimized API endpoints
-  - **Enhanced authentication** - Created `server/auth-vercel.ts` with bcrypt encryption and session management
-  - **Build optimization** - Added `scripts/build-vercel.js` for optimized build process
-  - **Security enhancements** - Created `next.config.js` with security headers and performance optimization
-  - **Deployment configuration** - Added `.vercelignore` to exclude unnecessary files from deployment
-  - **Comprehensive documentation** - Updated `.env.example` and `VERCEL_DEPLOY.md` with detailed instructions
-  - **Database population** - Enhanced `scripts/simple-populate.sql` with conflict handling for safe re-runs
-  - **Troubleshooting guide** - Added complete troubleshooting section for common deployment issues
-  - **Performance optimization** - Configured memory limits, connection pooling, and SSL settings for production
+- **Arquitetura simplificada** - Projeto agora focado exclusivamente em implantação Replit:
+  - **Autenticação única** - Mantida apenas autenticação via Replit Auth com sessões PostgreSQL
+  - **Sistema de build limpo** - Apenas configuração Vite padrão para desenvolvimento e produção
+  - **Estrutura de arquivos otimizada** - Removidos arquivos desnecessários e duplicados
 
 ### June 26, 2025
 - **Initial setup** - Complete Mexican restaurant website created
