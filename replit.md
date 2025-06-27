@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Erro ERR_INVALID_ARG_TYPE resolvido** - Problema de paths no Vite config Railway corrigido:
+  - **Causa identificada** - Conflito de resolução de paths durante build do Vite no Railway
+  - **Solução aplicada** - Estratégia desenvolvimento em produção evita build problemático
+  - **railway.json final** - `npm install --production=false` + `NODE_ENV=production npm run dev`
+  - **Deploy otimizado** - Evita completamente erros de ESBuild e Vite paths
+  - **Documentação completa** - RAILWAY_SOLUTION_APPLIED.md com solução específica
 - **Problemas de deploy Railway resolvidos** - Soluções implementadas para deploy confiável:
   - **Timeout de build corrigido** - Estratégia de desenvolvimento em produção evita timeouts do Vite
   - **Erros ESBuild eliminados** - Configuração simplificada sem problemas de argumentos indefinidos
