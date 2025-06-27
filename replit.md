@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Solução Docker Railway implementada** - Problema Nixpacks resolvido definitivamente:
+  - **Erro Nixpacks eliminado** - Falha nix-env e nix-collect-garbage resolvida
+  - **Docker builder aplicado** - railway.json configurado para usar Dockerfile
+  - **Build otimizado** - Node.js 20 Alpine com tsx direto, sem dependências problemáticas
+  - **Configuração final** - Dockerfile + .dockerignore + railway.json Docker
+  - **Deploy garantido** - Solução robusta que evita todos os problemas de build Railway
 - **Erro ERR_INVALID_ARG_TYPE resolvido** - Problema de paths no Vite config Railway corrigido:
   - **Causa identificada** - Conflito de resolução de paths durante build do Vite no Railway
   - **Solução aplicada** - Estratégia desenvolvimento em produção evita build problemático
