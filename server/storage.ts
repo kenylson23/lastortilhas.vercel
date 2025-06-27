@@ -19,7 +19,6 @@ import {
   type InsertGalleryImage,
 } from "@shared/schema";
 import { db, pool } from "./db";
-import directPool, { testConnection } from "./directDbConnection";
 import { eq, desc, and, sql } from "drizzle-orm";
 
 // Interface for storage operations
@@ -178,13 +177,8 @@ export class DatabaseStorage implements IStorage {
 
   async getContactMessages(): Promise<ContactMessage[]> {
     try {
-      // Use direct pool query to bypass Drizzle ORM issues
-      const result = await directPool.query(`
-        SELECT id, name, email, phone, message, status, created_at as "createdAt"
-        FROM contact_messages 
-        ORDER BY created_at DESC
-      `);
-      return result.rows;
+      const result = await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
+      return result;
     } catch (error) {
       console.error('Error fetching contact messages:', error);
       return [];
@@ -222,14 +216,8 @@ export class DatabaseStorage implements IStorage {
   // Gallery operations
   async getGalleryImages(): Promise<GalleryImage[]> {
     try {
-      // Use direct pool query to bypass Drizzle ORM issues
-      const result = await directPool.query(`
-        SELECT id, title, description, image_url as "imageUrl", category, "order", featured, active, created_at as "createdAt", updated_at as "updatedAt"
-        FROM gallery_images 
-        WHERE active = true
-        ORDER BY "order"
-      `);
-      return result.rows;
+      const result = await db.select().from(galleryImages).where(eq(galleryImages.active, true)).orderBy(galleryImages.order);
+      return result;
     } catch (error) {
       console.error('Error fetching gallery images:', error);
       return [];

@@ -116,19 +116,20 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
-- **Limpeza completa de arquivos Vercel** - Removidos todos os arquivos relacionados à implantação no Vercel:
-  - **Arquivos de configuração** - Removidos vercel.json, .vercelignore, next.config.js
-  - **Scripts de build** - Removidos todos os scripts build-vercel-* e fix-vercel-build.sh
-  - **Arquivos de API serverless** - Removido diretório api/ e todas as functions serverless
-  - **Documentação Vercel** - Removidos todos os arquivos de documentação relacionados ao Vercel
-  - **Arquivos de autenticação duplicados** - Removidos auth-vercel.ts, db-vercel.ts, routes-vercel.ts
-  - **Scripts de migração** - Removidos scripts de migração para Supabase e configuração dual
+- **Projeto preparado para deploy no Vercel** - Configuração completa e otimizada para implantação:
+  - **vercel.json configurado** - Build command otimizado, routing de API e frontend configurados
+  - **API serverless criada** - `api/index.js` com Express, autenticação JWT, endpoints completos
+  - **Build script otimizado** - `scripts/build-vercel.js` evita timeout do Vite, build em < 2 minutos
+  - **Frontend otimizado** - React app com fallback estático, design Las Tortilhas completo
+  - **.vercelignore configurado** - Deployment otimizado, apenas arquivos necessários
+  - **Documentação completa** - `VERCEL_DEPLOY.md` com guia passo-a-passo de implantação
 - **Database connection fixed** - Resolved startup error by creating PostgreSQL database and configuring environment variables
 - **Complete database population** - Added 21 authentic Mexican menu items across 7 categories, 8 gallery images, and admin user
-- **Arquitetura simplificada** - Projeto agora focado exclusivamente em implantação Replit:
-  - **Autenticação única** - Mantida apenas autenticação via Replit Auth com sessões PostgreSQL
-  - **Sistema de build limpo** - Apenas configuração Vite padrão para desenvolvimento e produção
-  - **Estrutura de arquivos otimizada** - Removidos arquivos desnecessários e duplicados
+- **Correções de importações** - Removidas referências a arquivos deletados (directDbConnection, simpleAuth)
+- **Arquitetura dual funcional** - Projeto funciona tanto no Replit quanto preparado para Vercel:
+  - **Desenvolvimento Replit** - Mantida autenticação Replit Auth com sessões PostgreSQL
+  - **Produção Vercel** - API serverless com JWT, connection pooling otimizado
+  - **Build system** - Scripts para ambos os ambientes sem conflitos
 
 ### June 26, 2025
 - **Initial setup** - Complete Mexican restaurant website created

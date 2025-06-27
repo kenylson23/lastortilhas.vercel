@@ -1,0 +1,70 @@
+# Development files
+node_modules
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Mac files
+.DS_Store
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary folders
+tmp/
+temp/
+
+# Database files
+*.db
+*.sqlite
+
+# Build artifacts (keep only dist for deployment)
+client/
+server/
+shared/
+scripts/
+migrations/
+attached_assets/
+public/
+
+# TypeScript
+*.tsbuildinfo
+
+# Documentation
+*.md
+!README.md
+
+# Config files not needed in production
+tsconfig.json
+drizzle.config.ts
+vite.config.ts
+tailwind.config.ts
+postcss.config.js
+components.json
+
+# Package files
+package-lock.json
