@@ -123,6 +123,8 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 - **Modern Vercel structure implemented** - Upgraded to Node.js 20.x runtime with ES modules (api/index.mjs)
 - **Serverless API optimization** - Created modern serverless functions with proper CORS and error handling
 - **Deploy-ready configuration** - Added .vercelignore, api/package.json, and comprehensive deployment documentation
+- **Vercel build optimization** - Fixed runtime version conflicts and optimized for 2-core 8GB build machines
+- **Production-ready performance** - Configured memory allocation, caching headers, and efficient build commands
 - **Vercel deployment issues completely resolved** - Fixed all build and frontend loading problems:
   - **Build process optimization** - Created `scripts/fix-vercel-build.sh` that generates working React application
   - **Frontend loading fix** - Replaced basic HTML with complete Las Tortilhas React app including authentication
