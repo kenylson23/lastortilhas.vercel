@@ -14,7 +14,7 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/public",
+  "buildCommand": "vite build --config vite.config.vercel.ts",
+  "outputDirectory": "dist",
   "installCommand": "npm install --production=false"
 }
