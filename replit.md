@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Railway deployment preparado** - Projeto configurado para deployment no Railway:
+  - **Arquivos Railway criados** - railway.json, Procfile, .env.example, guias de deployment
+  - **Porta dinâmica** - Servidor configurado para usar PORT do Railway (fallback 5000 para Replit)
+  - **Banco de dados otimizado** - Suporte para DATABASE_PRIVATE_URL do Railway + fallbacks
+  - **Build testado** - Sistema de build funcional para produção
+  - **Documentação completa** - Guias passo-a-passo para deployment no Railway
 - **Configuração Vercel removida completamente** - Projeto otimizado para funcionar exclusivamente no Replit:
   - **Arquivos Vercel deletados** - vercel.json, api/, vite.config.vercel.ts, scripts/build-vercel.js
   - **Projeto focado no Replit** - Configuração limpa sem conflitos de deployment

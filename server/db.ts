@@ -2,8 +2,11 @@ import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "@shared/schema";
 
-// Force Supabase connection
-const databaseUrl = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
+// Priority order: Railway -> Supabase -> Replit -> Local
+const databaseUrl = 
+  process.env.DATABASE_PRIVATE_URL || // Railway private connection
+  process.env.DATABASE_URL || // Standard DATABASE_URL (Railway public or others)
+  process.env.SUPABASE_DATABASE_URL; // Supabase connection
 
 if (!databaseUrl) {
   throw new Error(
@@ -11,7 +14,10 @@ if (!databaseUrl) {
   );
 }
 
-console.log('Connecting to database:', databaseUrl.includes('supabase') ? 'Supabase' : 'Other');
+// Log database provider for debugging
+const provider = databaseUrl.includes('railway') ? 'Railway' : 
+                databaseUrl.includes('supabase') ? 'Supabase' : 'Other';
+console.log('Connecting to database:', provider);
 
 export const pool = new Pool({ 
   connectionString: databaseUrl,
