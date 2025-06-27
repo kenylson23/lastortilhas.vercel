@@ -78,34 +78,34 @@ app.use((req, res, next) => {
     
     const server = await registerRoutes(app);
 
-  // Tratamento de erros centralizado
-  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    
-    if (config.features.logging) {
-      log(`[ERROR] ${req.method} ${req.path} - ${status}: ${message}`);
-    }
-    
-    const errorResponse: any = {
-      success: false,
-      error: message,
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: req.path,
-      method: req.method
-    };
+    // Tratamento de erros centralizado
+    app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      
+      if (config.features.logging) {
+        log(`[ERROR] ${req.method} ${req.path} - ${status}: ${message}`);
+      }
+      
+      const errorResponse: any = {
+        success: false,
+        error: message,
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: req.path,
+        method: req.method
+      };
 
-    if (config.server.environment === 'development' && err.stack) {
-      errorResponse.stack = err.stack;
-    }
+      if (config.server.environment === 'development' && err.stack) {
+        errorResponse.stack = err.stack;
+      }
 
-    res.status(status).json(errorResponse);
-    
-    if (status >= 500) {
-      console.error('Critical error:', err);
-    }
-  });
+      res.status(status).json(errorResponse);
+      
+      if (status >= 500) {
+        console.error('Critical error:', err);
+      }
+    });
 
     // Configurar ambiente baseado na configuração flexível
     if (config.features.viteDevServer) {
@@ -115,11 +115,7 @@ app.use((req, res, next) => {
     }
 
     // Iniciar servidor com configuração flexível
-    server.listen({
-      port: config.server.port,
-      host: config.server.host,
-      reusePort: true,
-    }, () => {
+    server.listen(config.server.port, config.server.host, () => {
       logDeploymentInfo(config);
     });
   } catch (error) {

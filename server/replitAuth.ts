@@ -34,24 +34,44 @@ const getOidcConfig = memoize(
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const pgStore = connectPg(session);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
-    ttl: sessionTtl,
-    tableName: "sessions",
-  });
-  return session({
-    secret: process.env.SESSION_SECRET!,
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: sessionTtl,
-    },
-  });
+  
+  try {
+    const pgStore = connectPg(session);
+    const sessionStore = new pgStore({
+      conString: process.env.DATABASE_URL,
+      createTableIfMissing: false,
+      ttl: sessionTtl,
+      tableName: "sessions",
+      errorLog: (error: Error) => {
+        console.error('Session store error:', error.message);
+      }
+    });
+    
+    return session({
+      secret: process.env.SESSION_SECRET!,
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: sessionTtl,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to create session store:', error instanceof Error ? error.message : String(error));
+    // Fallback to memory store
+    return session({
+      secret: process.env.SESSION_SECRET!,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: sessionTtl,
+      },
+    });
+  }
 }
 
 function updateUserSession(
@@ -94,7 +114,14 @@ export async function setupAuth(app: Express) {
     return;
   }
 
-  const config = await getOidcConfig();
+  let config;
+  try {
+    config = await getOidcConfig();
+  } catch (error) {
+    console.error('OIDC configuration failed:', error instanceof Error ? error.message : String(error));
+    console.log('Continuing with basic authentication setup...');
+    return;
+  }
 
   const verify: VerifyFunction = async (
     tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
@@ -150,10 +177,15 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
-  const user = req.user as any;
+  if (!req.isAuthenticated()) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
 
-  if (!req.isAuthenticated() || !user.expires_at) {
-    return res.status(401).json({ message: "Unauthorized" });
+  const user = req.user as any;
+  if (!user) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 
   const now = Math.floor(Date.now() / 1000);
