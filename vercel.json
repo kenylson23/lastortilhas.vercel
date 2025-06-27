@@ -1,5 +1,5 @@
 {
-  "buildCommand": "./scripts/simple-build.sh",
+  "buildCommand": "./scripts/fix-vercel-build.sh",
   "outputDirectory": "dist/public",
   "installCommand": "npm install"
 }
