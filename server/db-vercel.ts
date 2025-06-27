@@ -1,18 +1,25 @@
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "@shared/schema";
 
-// For Vercel, use HTTP-based connection which works better with serverless
+// Supabase connection for Vercel
 const databaseUrl = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   throw new Error(
-    "Database URL must be set. Did you forget to configure the database?",
+    "Supabase DATABASE_URL must be set. Please configure your Supabase connection string.",
   );
 }
 
-console.log('Connecting to database via HTTP:', databaseUrl.includes('supabase') ? 'Supabase' : 'Other');
+console.log('Connecting to Supabase database');
 
-// Use neon HTTP client for Vercel serverless
-const sql = neon(databaseUrl);
-export const db = drizzle(sql, { schema });
+// Optimized connection pool for Vercel serverless
+export const pool = new Pool({ 
+  connectionString: databaseUrl,
+  ssl: { rejectUnauthorized: false },
+  max: 1, // Limit connections for serverless
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000,
+});
+
+export const db = drizzle(pool, { schema });

@@ -116,14 +116,17 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
-- **Vercel deployment preparation** - Configured complete Vercel deployment setup:
+- **Vercel deployment preparation** - Configured complete Vercel deployment setup with Supabase:
   - Created `vercel.json` with optimized build and routing configuration
   - Added `api/index.ts` as Vercel-compatible API entry point
-  - Created `.env.example` documenting required environment variables
-  - Added `VERCEL_DEPLOY.md` with comprehensive deployment instructions
-  - Created `server/db-vercel.ts` with HTTP-based database connection for serverless
+  - Created `.env.example` documenting required Supabase environment variables
+  - Added `VERCEL_DEPLOY.md` with comprehensive deployment instructions for Supabase
+  - Created `server/db-vercel.ts` with optimized PostgreSQL connection for serverless
+  - Created `scripts/simple-populate.sql` for easy Supabase database population
   - Optimized build process for Vercel's static + serverless architecture
   - Set up proper routing for frontend (static) and API (serverless functions)
+  - **Database Configuration**: Configured specifically for Supabase PostgreSQL
+  - **Data Population**: Created SQL script with admin user, menu items, and gallery images
 
 ### June 26, 2025
 - **Initial setup** - Complete Mexican restaurant website created
