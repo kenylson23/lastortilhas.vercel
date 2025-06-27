@@ -4,8 +4,9 @@
 
 ### 1. Preparação do Projeto
 O projeto já está configurado para deploy no Vercel com:
-- ✅ `vercel.json` configurado para API routes e frontend
-- ✅ `api/index.ts` adaptado para o padrão Vercel
+- ✅ `vercel.json` configurado com **functions** modernas (não builds legadas)
+- ✅ Serverless Functions com `@vercel/node@3` runtime
+- ✅ `api/index.ts` adaptado para o padrão Vercel moderno
 - ✅ `.env.example` com variáveis necessárias
 - ✅ Build otimizado para produção
 - ✅ Configuração específica para Supabase

@@ -117,7 +117,7 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 
 ### June 27, 2025
 - **Vercel deployment preparation** - Configured complete Vercel deployment setup with Supabase:
-  - Created `vercel.json` with optimized build and routing configuration
+  - Created `vercel.json` with modern **functions** syntax (replaced legacy builds approach)
   - Added `api/index.ts` as Vercel-compatible API entry point
   - Created `.env.example` documenting required Supabase environment variables
   - Added `VERCEL_DEPLOY.md` with comprehensive deployment instructions for Supabase
