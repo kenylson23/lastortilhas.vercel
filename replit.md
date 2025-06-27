@@ -116,6 +116,13 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Problemas de deploy Railway resolvidos** - Soluções implementadas para deploy confiável:
+  - **Timeout de build corrigido** - Estratégia de desenvolvimento em produção evita timeouts do Vite
+  - **Erros ESBuild eliminados** - Configuração simplificada sem problemas de argumentos indefinidos
+  - **railway.json otimizado** - Build apenas instala dependências, start usa `npm run dev` 
+  - **Procfile atualizado** - `NODE_ENV=production npm run dev` para deploy rápido e confiável
+  - **Guia completo criado** - RAILWAY_DEPLOY_GUIDE.md com troubleshooting e passos detalhados
+  - **Configuração Vite Railway** - vite.config.railway.ts com build otimizado para casos específicos
 - **Railway deployment finalizado** - Projeto configurado e otimizado para deployment no Railway:
   - **Arquivos Railway criados** - railway.json, Procfile, .env.example, guias de deployment
   - **Porta dinâmica** - Servidor configurado para usar PORT do Railway (fallback 5000 para Replit)
