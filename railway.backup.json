@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm install && npx vite build --config vite.config.railway.ts"
+    "buildCommand": "node build-railway.js"
   },
   "deploy": {
     "startCommand": "npm start",
