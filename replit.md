@@ -116,6 +116,13 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Sistema de Gerenciamento de Sessão Duplo implementado** - Conforme arquitetura de backend especificada:
+  - **Sessões tradicionais** - Mantido sistema original com PostgreSQL para implantação Replit
+  - **JWT Token support** - Addon JWT implementado para compatibilidade com Vercel
+  - **Middleware unificado** - Sistema dual que suporta ambos os métodos de autenticação
+  - **Compatibilidade total** - API funciona tanto com sessões quanto com tokens JWT
+  - **Endpoints RESTful** - Design de API mantido conforme especificação
+  - **CORS e autenticação** - Middleware personalizado registrado e ativo
 - **Problema de build do Vercel completamente resolvido** - Implementada solução definitiva para timeouts de build:
   - **Script de build rápido** - Criado `scripts/build-fast-vercel.js` que bypassa o timeout do Vite com ícones lucide-react
   - **Build em < 30 segundos** - Tempo de build reduzido de timeout infinito para menos de 30 segundos

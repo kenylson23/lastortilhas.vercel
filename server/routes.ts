@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./simpleAuth";
+import { addJWTToAuth } from "./jwtAddon";
 import { insertReservationSchema, insertContactMessageSchema, insertMenuCategorySchema, insertMenuItemSchema, insertGalleryImageSchema } from "@shared/schema";
 import { z } from "zod";
 
@@ -22,6 +23,9 @@ const isAdmin = async (req: any, res: any, next: any) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
+  
+  // Adicionar suporte JWT (mantendo sessões tradicionais)
+  addJWTToAuth(app);
 
   // Auth routes are handled in simpleAuth.ts
 
