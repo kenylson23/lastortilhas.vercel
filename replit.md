@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Arquivos de implantação completamente recriados** - Sistema completo incluindo functions e build:
+  - **Vercel.json v2** - Configuração otimizada com Node.js 20.x, functions com 1GB RAM, CORS e cache
+  - **API Serverless** - `api/index.mjs` com ES modules, JWT auth, PostgreSQL, bcrypt e endpoints completos
+  - **Build script completo** - `scripts/build-vercel-complete.js` com pipeline otimizado e verificações
+  - **Configurações de segurança** - Headers CSP, CORS, XSS protection e cache strategies
+  - **Documentação completa** - Guia passo-a-passo para deploy, troubleshooting e monitoramento
 - **Comandos de construção e instalação configurados** - Scripts otimizados para diferentes ambientes:
   - **Script unificado** - `./scripts/setup.sh` com comandos para dev, prod, build, install, clean
   - **Instalação desenvolvimento** - Configuração completa com todas as dependências e verificações

@@ -1,37 +1,45 @@
 # Development files
+src/
 server/
-client/src/
+shared/
 scripts/
-node_modules/
+migrations/
+client/src/
+
+# Configuration
 .env.local
 .env.development
+.replit
+replit.md
+tsconfig.json
+vite.config.ts
+postcss.config.js
+tailwind.config.ts
+components.json
+
+# Build artifacts
+.next/
+.nuxt/
+.vite/
+node_modules/
 
 # Documentation
 *.md
-!README.md
+VERCEL_*.md
+BUILD_*.md
+FLUXO_*.md
+ARQUITETURA_*.md
+SUPABASE_*.md
 
-# Build artifacts
-dist/server/
-build/
+# Assets
+attached_assets/
+cookies*.txt
+public/
 
-# Database files
-*.db
-*.sqlite
+# Backups
+package.json.backup
+cookies_new.txt
 
-# Logs
-logs/
-*.log
-
-# IDE files
+# IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Temporary files
-tmp/
-temp/
