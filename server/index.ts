@@ -71,10 +71,12 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Obter configuração de deployment flexível
-  const config = getDeploymentConfig();
-  
-  const server = await registerRoutes(app);
+  try {
+    // Obter configuração de deployment flexível
+    const config = getDeploymentConfig();
+    console.log('🏗️  Starting Las Tortilhas server...');
+    
+    const server = await registerRoutes(app);
 
   // Tratamento de erros centralizado
   app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
@@ -105,19 +107,24 @@ app.use((req, res, next) => {
     }
   });
 
-  // Configurar ambiente baseado na configuração flexível
-  if (config.features.viteDevServer) {
-    await setupVite(app, server);
-  } else if (config.features.staticFiles) {
-    serveStatic(app);
-  }
+    // Configurar ambiente baseado na configuração flexível
+    if (config.features.viteDevServer) {
+      await setupVite(app, server);
+    } else if (config.features.staticFiles) {
+      serveStatic(app);
+    }
 
-  // Iniciar servidor com configuração flexível
-  server.listen({
-    port: config.server.port,
-    host: config.server.host,
-    reusePort: true,
-  }, () => {
-    logDeploymentInfo(config);
-  });
+    // Iniciar servidor com configuração flexível
+    server.listen({
+      port: config.server.port,
+      host: config.server.host,
+      reusePort: true,
+    }, () => {
+      logDeploymentInfo(config);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
+    process.exit(1);
+  }
 })();

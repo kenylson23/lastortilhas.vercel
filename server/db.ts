@@ -12,7 +12,10 @@ export const pool = new Pool({
   max: config.database.poolSize,
   min: parseInt(process.env.DB_POOL_MIN || '1'),
   idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT || '30000'),
-  connectionTimeoutMillis: parseInt(process.env.DB_CONNECTION_TIMEOUT || '5000'),
+  connectionTimeoutMillis: parseInt(process.env.DB_CONNECTION_TIMEOUT || '10000'),
+  // Add retry logic for better connection handling
+  maxUses: 7500,
+  allowExitOnIdle: true,
 });
 
 export const db = drizzle(pool, { schema });

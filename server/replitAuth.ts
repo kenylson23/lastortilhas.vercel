@@ -15,10 +15,19 @@ if (!process.env.REPLIT_DOMAINS && process.env.NODE_ENV === 'production') {
 
 const getOidcConfig = memoize(
   async () => {
-    return await client.discovery(
-      new URL(process.env.ISSUER_URL ?? "https://replit.com/oidc"),
-      process.env.REPL_ID!
-    );
+    try {
+      const issuerUrl = process.env.ISSUER_URL ?? "https://replit.com/oidc";
+      const replId = process.env.REPL_ID;
+      
+      if (!replId) {
+        throw new Error("REPL_ID environment variable is required for OIDC authentication");
+      }
+      
+      return await client.discovery(new URL(issuerUrl), replId);
+    } catch (error) {
+      console.error("Failed to configure OIDC:", error.message);
+      throw error;
+    }
   },
   { maxAge: 3600 * 1000 }
 );
