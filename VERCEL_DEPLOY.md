@@ -38,7 +38,7 @@ O projeto já está configurado para deploy no Vercel com:
 #### 3.1. Build Settings (Settings > General):
 ```
 Framework Preset: Other
-Build Command: vite build
+Build Command: npm run build
 Output Directory: dist/public  
 Install Command: npm install
 Node.js Version: 18.x
@@ -54,7 +54,7 @@ NODE_ENV=production
 #### 3.3. Como Configurar:
 1. **Build Settings**: Settings > General > Build & Development Settings
    - Framework Preset: **Other**
-   - Build Command: **vite build**  
+   - Build Command: **npm run build**  
    - Output Directory: **dist/public**
    - Install Command: **npm install**
 

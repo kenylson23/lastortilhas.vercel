@@ -11,6 +11,6 @@
       "destination": "/api/$1"
     }
   ],
-  "buildCommand": "vite build",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist/public"
 }
