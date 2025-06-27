@@ -7,19 +7,29 @@ const databaseUrl = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_UR
 
 if (!databaseUrl) {
   throw new Error(
-    "Supabase DATABASE_URL must be set. Please configure your Supabase connection string.",
+    "DATABASE_URL must be set. Please configure your Supabase connection string in environment variables.",
   );
 }
 
-console.log('Connecting to Supabase database');
+console.log('Connecting to database for Vercel deployment');
 
 // Optimized connection pool for Vercel serverless
 export const pool = new Pool({ 
   connectionString: databaseUrl,
-  ssl: { rejectUnauthorized: false },
-  max: 1, // Limit connections for serverless
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 10000,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 1, // Single connection for serverless
+  min: 0, // No minimum connections
+  idleTimeoutMillis: 30000, // 30 seconds idle timeout
+  connectionTimeoutMillis: 10000, // 10 seconds connection timeout
+  allowExitOnIdle: true, // Allow process to exit when idle
+});
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+  pool.end(() => {
+    console.log('Database pool has ended');
+    process.exit(0);
+  });
 });
 
 export const db = drizzle(pool, { schema });

@@ -1,15 +1,16 @@
 # Deploy no Vercel - Las Tortilhas
 
-## Instruções para Deploy
+## Instruções Completas para Deploy (2025)
 
-### 1. Preparação do Projeto
-O projeto já está configurado para deploy no Vercel com:
-- ✅ **Zero-Config**: Vercel auto-detecta e otimiza automaticamente
-- ✅ **Minimal vercel.json**: Apenas configurações essenciais
-- ✅ **Framework-agnostic**: Funciona com Vite + Express
-- ✅ Serverless Functions otimizadas com 1GB memória
-- ✅ `api/index.ts` adaptado para padrão Vercel 2025
-- ✅ Configuração específica para Supabase
+### 1. Preparação do Projeto ✅
+O projeto está otimizado para deploy no Vercel com:
+- ✅ **Vercel Functions v2**: Serverless otimizado com Node.js 18
+- ✅ **CORS configurado**: Suporte completo para domínios Vercel
+- ✅ **Sessões seguras**: Configuração SSL para produção
+- ✅ **Build otimizado**: Frontend estático + API serverless
+- ✅ **Database pooling**: Conexão otimizada para Supabase
+- ✅ **Error handling**: Tratamento robusto de erros
+- ✅ **Environment variables**: Documentação completa
 
 ### 2. Configurar Supabase (Banco PostgreSQL)
 
@@ -33,22 +34,31 @@ O projeto já está configurado para deploy no Vercel com:
    ```
 4. Substitua `[YOUR-PASSWORD]` pela senha que você criou
 
-### 3. Configuração no Dashboard Vercel
+### 3. Configuração Otimizada no Dashboard Vercel
 
 #### 3.1. Build Settings (Settings > General):
-```
+```bash
 Framework Preset: Other
 Build Command: npm run build
-Output Directory: dist/public  
-Install Command: npm install
+Output Directory: dist/public
+Install Command: npm install --production=false
 Node.js Version: 18.x
+Root Directory: ./
 ```
 
 #### 3.2. Environment Variables (Settings > Environment Variables):
-```
+```bash
+# Database (Obrigatório)
 DATABASE_URL=postgresql://postgres:[SUA-SENHA]@db.[PROJECT-REF].supabase.co:5432/postgres
-SESSION_SECRET=minimo-32-caracteres-aleatorios-super-seguros
+
+# Segurança (Obrigatório)
+SESSION_SECRET=sua-chave-secreta-com-32-caracteres-minimo
+
+# Ambiente (Obrigatório)
 NODE_ENV=production
+
+# Performance (Opcional)
+VERCEL_REGION=iad1
 ```
 
 #### 3.3. Como Configurar:
@@ -128,10 +138,55 @@ O script `populate-supabase.ts` irá criar:
 - Sessões são persistidas no PostgreSQL
 - SSL é automático no Vercel
 
-### 7. Troubleshooting
-- **Erro de conexão**: Verifique se DATABASE_URL está correta
-- **Sessões não funcionam**: Configure SESSION_SECRET
-- **404 nas APIs**: Verifique se as rotas estão em `/api/*`
+### 7. Troubleshooting Completo
+
+#### 7.1. Problemas de Build
+```bash
+# Erro: "Cannot find module 'cors'"
+Solução: Instalar dependências -> npm install cors @types/cors
+
+# Erro: "Build failed with exit code 1"
+Solução: Verificar logs de build e variáveis de ambiente
+
+# Erro: "Output directory not found"
+Solução: Confirmar Output Directory = dist/public
+```
+
+#### 7.2. Problemas de Database
+```bash
+# Erro: "Database URL must be set"
+Solução: Configurar DATABASE_URL nas Environment Variables
+
+# Erro: "Connection timeout"
+Solução: Verificar credenciais Supabase e conexão SSL
+
+# Erro: "Table doesn't exist"
+Solução: Executar migrações -> npm run db:push
+```
+
+#### 7.3. Problemas de API
+```bash
+# Erro: "401 Unauthorized"
+Solução: Verificar SESSION_SECRET configurado
+
+# Erro: "CORS policy error"
+Solução: Verificar domínio nas configurações CORS
+
+# Erro: "500 Internal Server Error"
+Solução: Verificar logs de função no Vercel Dashboard
+```
+
+#### 7.4. Performance Issues
+```bash
+# Problema: "Function timeout"
+Solução: Otimizar queries database e connection pooling
+
+# Problema: "Cold start latency"
+Solução: Usar Vercel Pro para reduzir cold starts
+
+# Problema: "Memory limit exceeded"
+Solução: Otimizar imports e reduzir bundle size
+```
 
 ### Estrutura do Deploy
 ```

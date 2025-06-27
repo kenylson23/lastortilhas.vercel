@@ -1,20 +1,62 @@
-# Files and directories to ignore during Vercel deployment
-node_modules
-.git
-.env
+# Vercel Ignore File - Las Tortilhas
+# Files and directories to ignore during deployment
+
+# Development files
 .env.local
+.env.development
+server/index.ts
+server/routes.ts
+server/db.ts
+server/directAuth.ts
+server/replitAuth.ts
+server/simpleAuth.ts
+server/simpleDirectAuth.ts
+server/authFix.ts
+server/directDbConnection.ts
+
+# Build artifacts
+dist/
+node_modules/
+.next/
+.cache/
+
+# Development configs
+.replit
+replit.nix
+.config/
+.upm/
+
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Replit specific files
-.replit
-replit.nix
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Development only files
-server/vite.ts
-.replit.md
+# Coverage directory used by tools like istanbul
+coverage/
 
-# Build artifacts that will be recreated
-dist/index.js
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
