@@ -5,13 +5,13 @@ import { menuCategories, menuItems, reservations, contactMessages, galleryImages
 import { eq, desc, and } from 'drizzle-orm';
 
 export async function registerRoutes(app: Express) {
+  // Health check endpoint (simplified)
+  app.get('/health', (req, res) => {
+    res.json({ status: 'OK' });
+  });
+
   // Setup authentication routes
   await setupAuth(app);
-
-  // Health check endpoint
-  app.get('/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date().toISOString() });
-  });
 
   // Menu routes
   app.get('/menu/categories', async (req, res) => {
@@ -137,22 +137,21 @@ export async function registerRoutes(app: Express) {
   // Admin routes
   app.get('/admin/stats', isAuthenticated, async (req, res) => {
     try {
-      const [totalReservations] = await db.select({ count: reservations.id }).from(reservations);
-      const [pendingReservations] = await db.select({ count: reservations.id })
-        .from(reservations)
-        .where(eq(reservations.status, 'pending'));
-      const [newContacts] = await db.select({ count: contactMessages.id })
-        .from(contactMessages)
-        .where(eq(contactMessages.status, 'new'));
-      const [totalMenuItems] = await db.select({ count: menuItems.id }).from(menuItems);
-      const [totalGalleryImages] = await db.select({ count: galleryImages.id }).from(galleryImages);
+      // Use simpler count queries to avoid execution time issues
+      const allReservations = await db.select().from(reservations);
+      const allContacts = await db.select().from(contactMessages);
+      const allMenuItems = await db.select().from(menuItems);
+      const allGalleryImages = await db.select().from(galleryImages);
+
+      const pendingReservations = allReservations.filter(r => r.status === 'pending');
+      const newContacts = allContacts.filter(c => c.status === 'new');
 
       res.json({
-        totalReservations: totalReservations.count || 0,
-        pendingReservations: pendingReservations.count || 0,
-        newContacts: newContacts.count || 0,
-        totalMenuItems: totalMenuItems.count || 0,
-        galleryImages: totalGalleryImages.count || 0
+        totalReservations: allReservations.length,
+        pendingReservations: pendingReservations.length,
+        newContacts: newContacts.length,
+        totalMenuItems: allMenuItems.length,
+        galleryImages: allGalleryImages.length
       });
     } catch (error) {
       console.error('Error fetching admin stats:', error);

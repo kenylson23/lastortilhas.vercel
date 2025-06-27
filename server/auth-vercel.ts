@@ -13,14 +13,12 @@ export interface AuthUser {
   role: string;
 }
 
-// Simple session store for Vercel (in-memory)
-const sessions = new Map<string, AuthUser>();
-
+// Simplified session store for Vercel (stateless)
 export function getSession() {
   return {
-    get: (req: any) => sessions.get(req.sessionID),
-    set: (req: any, user: AuthUser) => sessions.set(req.sessionID, user),
-    destroy: (req: any) => sessions.delete(req.sessionID)
+    get: (req: any) => req.user || null,
+    set: (req: any, user: AuthUser) => { req.user = user; },
+    destroy: (req: any) => { req.user = null; }
   };
 }
 
