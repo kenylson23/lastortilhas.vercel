@@ -117,6 +117,11 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 
 ### June 27, 2025
 - **Database connection fixed** - Resolved startup error by creating PostgreSQL database and configuring environment variables
+- **Vercel runtime issues resolved** - Fixed "function runtime must have a valid version" and "vite build exited with 127" errors:
+  - **Simplified API architecture** - Replaced complex Express/TypeScript with native JavaScript serverless functions
+  - **Zero Config deployment** - Removed all runtime specifications allowing Vercel auto-detection
+  - **Optimized build process** - Created `scripts/simple-build.sh` bypassing problematic vite build timeouts
+  - **Build performance fix** - Resolved lucide-react timeout issues causing code 127 exit
 - **Complete Vercel deployment optimization** - Enhanced deployment setup with production-ready optimizations:
   - **Enhanced vercel.json** - Added version 2 configuration with Node.js 18, CORS headers, and proper routing
   - **Optimized API entry point** - Enhanced `api/index.ts` with CORS configuration, session management, and error handling

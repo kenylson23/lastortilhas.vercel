@@ -1,1 +1,5 @@
-{}
+{
+  "buildCommand": "./scripts/simple-build.sh",
+  "outputDirectory": "dist/public",
+  "installCommand": "npm install"
+}
