@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Fluxo de Dados completo implementado** - Conforme diagrama de arquitetura fornecido:
+  - **Solicitações do cliente** - Frontend React com TanStack Query otimizado para dual auth (sessões + JWT)
+  - **Autenticação dupla** - Middleware unificado valida sessões PostgreSQL e tokens JWT automaticamente
+  - **Operações de banco** - Drizzle ORM com interações seguras e tipagem completa
+  - **Processamento de resposta** - Express middleware com formatação padronizada e logs estruturados
+  - **Tratamento de erros** - Sistema centralizado com códigos HTTP adequados e logging detalhado
 - **Sistema de Gerenciamento de Sessão Duplo implementado** - Conforme arquitetura de backend especificada:
   - **Sessões tradicionais** - Mantido sistema original com PostgreSQL para implantação Replit
   - **JWT Token support** - Addon JWT implementado para compatibilidade com Vercel
