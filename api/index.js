@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+const { Pool } = require('pg');
 
 // Database connection optimized for Vercel serverless
 const pool = new Pool({ 
@@ -10,7 +10,7 @@ const pool = new Pool({
   allowExitOnIdle: true,
 });
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Set CORS headers for all requests
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
