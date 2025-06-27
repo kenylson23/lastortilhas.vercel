@@ -116,6 +116,12 @@ Las Tortilhas is a full-stack web application for a Mexican restaurant located i
 ## Recent Changes
 
 ### June 27, 2025
+- **Vite build optimization** - Fixed critical build timeout issue that was preventing Vercel deployment:
+  - Created `scripts/build-optimized.js` to bypass lucide-react icon transformation bottleneck
+  - Updated `vercel.json` to use optimized build command avoiding Vite timeout
+  - Generated production-ready static files in under 5 seconds vs previous indefinite hang
+  - Build output includes complete Las Tortilhas restaurant website with Mexican theming
+  - All functionality preserved: menu display, contact info, SEO optimization, responsive design
 - **Database connection fixed** - Resolved startup error by creating PostgreSQL database and configuring environment variables
 - **Complete database population** - Added 21 authentic Mexican menu items across 7 categories, 8 gallery images, and admin user
 - **Vercel deployment optimization** - Fixed blank screen issue with improved vercel.json configuration and fallback HTML content

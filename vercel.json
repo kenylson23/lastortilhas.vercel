@@ -1,4 +1,7 @@
 {
+  "buildCommand": "node scripts/build-optimized.js",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
